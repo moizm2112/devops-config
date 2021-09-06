@@ -9,7 +9,7 @@ sudo docker rm -f accounts-management-service_container
 sudo docker rmi accounts-management-service
 
 # Clone the repository
-cd new_paywallet_backend_services/accounts-management-service
+cd ~/new_paywallet_backend_services/accounts-management-service
 
 # Pull the latest code from git
 git pull
