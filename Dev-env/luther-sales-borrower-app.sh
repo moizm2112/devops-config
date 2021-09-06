@@ -9,7 +9,7 @@ sudo docker rm -f luther-sales-borrower-app_container
 sudo docker rmi luther-sales-borrower-app
 
 # Clone the repository
-cd new_paywallet_frontend_services/luther-sales-borrower-app
+cd ~/new_paywallet_frontend_services/luther-sales-borrower-app
 
 # Pull the latest code from git
 git pull

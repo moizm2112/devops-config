@@ -9,7 +9,7 @@ sudo docker rm -f luther-sales-salesrep-app_container
 sudo docker rmi luther-sales-salesrep-app
 
 # Clone the repository
-cd new_paywallet_frontend_services/luther-sales-salesrep-app
+cd ~/new_paywallet_frontend_services/luther-sales-salesrep-app
 
 # Pull the latest code from git
 git pull

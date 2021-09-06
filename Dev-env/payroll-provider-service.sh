@@ -9,7 +9,7 @@ sudo docker rm -f payroll-provider-service_container
 sudo docker rmi payroll-provider-service
 
 # Clone the repository
-cd new_paywallet_backend_services/payroll-provider-service
+cd ~/new_paywallet_backend_services/payroll-provider-service
 
 # Pull the latest code from git
 git pull

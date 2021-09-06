@@ -9,7 +9,7 @@ sudo docker rm -f verification-link-service_container
 sudo docker rmi verification-link-service
 
 # Clone the repository
-cd new_paywallet_backend_services/verification-link-service
+cd ~/new_paywallet_backend_services/verification-link-service
 
 # Pull the latest code from git
 git pull

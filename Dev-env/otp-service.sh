@@ -11,7 +11,7 @@ sleep 30
 sudo docker rmi otp-service
 
 # Clone the repository
-cd new_paywallet_backend_services/otp-service
+cd ~/new_paywallet_backend_services/otp-service
 
 # Pull the latest code from git
 git pull

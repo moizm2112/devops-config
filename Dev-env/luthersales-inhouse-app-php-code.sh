@@ -9,7 +9,7 @@ sudo docker rm -f luthersales-inhouse-app-php-code_container
 sudo docker rmi luthersales-inhouse-app-php-code
 
 # Clone the repository
-cd new_paywallet_frontend_services/luthersales-inhouse-app-php-code
+cd ~/new_paywallet_frontend_services/luthersales-inhouse-app-php-code
 
 # Pull the latest code from git
 git pull

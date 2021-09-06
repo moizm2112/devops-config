@@ -11,7 +11,7 @@ sleep 30
 sudo docker rmi order-management-service
 
 # Clone the repository
-cd new_paywallet_backend_services/order-management-service
+cd ~/new_paywallet_backend_services/order-management-service
 
 # Pull the latest code from git
 git pull

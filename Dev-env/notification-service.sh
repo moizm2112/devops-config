@@ -9,7 +9,7 @@ sudo docker rm -f notification-service_container
 sudo docker rmi notification-service
 
 # Clone the repository
-cd new_paywallet_backend_services/notification-service/
+cd ~/new_paywallet_backend_services/notification-service/
 
 # Pull the latest code from git
 git pull
