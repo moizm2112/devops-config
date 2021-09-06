@@ -9,7 +9,7 @@ sudo docker rm -f eureka-service_container
 sudo docker rmi eureka-service
 
 # Clone the repository
-cd new_paywallet_backend_services/eureka-service
+cd ~/new_paywallet_backend_services/eureka-service
 
 # Pull the latest code from git
 git pull
