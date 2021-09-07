@@ -4,9 +4,9 @@ pipeline {
 
         stage('ssh into remote') {   
                         steps {
-                                withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+				withCredentials([usernamePassword(credentialsId: 'prod-server-access', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh'''
-                                        sshpass -p $PASSWORD ssh $USERNAME@10.0.2.3 bash devops-config/Dev-env/accountmanagement-service.sh
+                                        sshpass -p $PASSWORD ssh $USERNAME@10.3.0.7 bash devops-config/Dev-env/accountmanagement-service.sh
                                 '''
                                 }
                         }
