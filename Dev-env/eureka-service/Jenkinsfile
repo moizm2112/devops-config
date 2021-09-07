@@ -1,0 +1,20 @@
+pipeline {
+    agent any 
+       stages {
+        stage('check version') {   
+        steps {
+            sh'''
+                docker --version
+            '''
+            }
+        }
+
+        stage('Deploment state') {   
+        steps {
+            sh'''
+	       sshpass -p password ssh paywalletdevops@10.128.0.2 bash eureka-service.sh
+            '''
+        }
+    }
+    }
+}
