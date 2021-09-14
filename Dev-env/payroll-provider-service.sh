@@ -18,7 +18,13 @@ git pull
 sudo mvn clean install -DskipTests
 
 #Generate Sonar Report
-sudo mvn sonar:sonar -Dsonar.projectKey=PayWallet-Payroll_Provider-API -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 -Dsonar.login=a3b5257195609b9dfea1e1906729d00e1a876c79
+#sudo mvn sonar:sonar -Dsonar.projectKey=PayWallet-Payroll_Provider-API -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 -Dsonar.login=a3b5257195609b9dfea1e1906729d00e1a876c79
+mvn sonar:sonar \
+  -Dsonar.projectKey=PayWallet-Payroll_Provider-API \
+  -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000  \
+  -Dsonar.login=a3b5257195609b9dfea1e1906729d00e1a876c79 \
+  -Dsonar.name=Dev-payroll-provider-service
+
 
 # docker buil and update
 sudo docker-compose -f docker-compose.yml up -d

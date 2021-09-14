@@ -20,7 +20,13 @@ git pull
 sudo mvn clean install -DskipTests
 
 #Generating Sonar Report
-sudo mvn sonar:sonar -Dsonar.projectKey=PayWallet-Otp-API -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 -Dsonar.login=51598bd92e720ff8cd05cfc8903e58f25e24382c
+#sudo mvn sonar:sonar -Dsonar.projectKey=PayWallet-Otp-API -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 -Dsonar.login=51598bd92e720ff8cd05cfc8903e58f25e24382c
+mvn sonar:sonar \
+  -Dsonar.projectKey=PayWallet-Otp-API \
+  -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000  \
+  -Dsonar.login=51598bd92e720ff8cd05cfc8903e58f25e24382c \
+  -Dsonar.name=Dev-otp-service
+
 
 # docker buil and update
 sudo docker-compose -f docker-compose.yml up --build -d

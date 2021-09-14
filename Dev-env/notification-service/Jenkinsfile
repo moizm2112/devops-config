@@ -1,20 +1,30 @@
 pipeline {
     agent any 
        stages {
+           
+        stage('devops-config repo sync') {   
+                steps {
+                    withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh'''
+                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.2.3 bash devops-config.sh
+                    '''
+                                }
+                        }
+                }
 
-        stage('ssh into remote') {   
-			steps {
-				withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-				sh'''
-					sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.2.3 bash devops-config/Dev-env/notification-service.sh
-				'''
-				}
-			}
-		}
+        stage('Build and Deploy') {   
+                steps {
+                    withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh'''
+                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.2.3 bash devops-config/Dev-env/notification-service.sh
+                    '''
+                                }
+                        }
+                }
     }
-	 post {
+      post {
         always {
             cleanWs()
         }
-    } 
+    }
 }
