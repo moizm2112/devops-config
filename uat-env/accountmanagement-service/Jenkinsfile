@@ -1,12 +1,14 @@
 pipeline {
-    agent any 
+    agent any
+    parameters {
+        string(name: 'Git-branch', defaultValue: 'temp-develop', description: 'Select the branch you want to deploy')
        stages {
 
         stage('ssh into remote') {   
                         steps {
                                 withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh'''
-                                        sshpass -p $PASSWORD ssh $USERNAME@10.0.2.3 bash devops-config/Dev-env/accountmanagement-service.sh
+                                        sshpass -p $PASSWORD ssh $USERNAME@10.0.2.3 bash devops-config/uat-env/accountmanagement-service.sh ${params.Git-branch}
                                 '''
                                 }
                         }
