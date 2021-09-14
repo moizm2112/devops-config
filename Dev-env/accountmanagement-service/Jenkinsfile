@@ -6,8 +6,7 @@ pipeline {
                         steps {
                                 withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh'''
-                                        sshpass -p $PASSWORD ssh $USERNAME@10.0.2.3 bash devops-config.sh
-                                        bash ~/devops-config/Dev-env/accountmanagement-service.sh
+                                        sshpass -p $PASSWORD ssh $USERNAME@10.0.2.3 bash devops-config/Dev-env/accountmanagement-service.sh
                                 '''
                                 }
                         }
