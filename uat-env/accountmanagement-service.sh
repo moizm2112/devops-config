@@ -18,7 +18,11 @@ git pull
 sudo mvn clean install -DskipTests
 
 #Generating Sonar Report
-sudo mvn sonar:sonar -Dsonar.projectKey=PayWallet-AccountManagement-API -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 -Dsonar.login=11228d1e1a9bae1f3ce56cd0dcfea09835ea6bd8
+mvn sonar:sonar \
+  -Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
+  -Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+  -Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
+  -Dsonar.name=UAT-accountmanagement-service
 
 # docker buil and update
 sudo docker-compose -f docker-compose.yml up -d
