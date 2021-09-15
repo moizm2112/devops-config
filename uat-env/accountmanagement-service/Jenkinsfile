@@ -12,7 +12,7 @@ pipeline {
 		sh """
 			cd /home/paywalletdevops/
 			sudo rm -rf devops-config
-			git changelog: false, credentialsId: 'Github-Key', poll: false, url: 'https://github.com/Maveric-Digital/devops-config.git'
+			git credentialsId: 'Github-Key', poll: false, url: 'https://github.com/Maveric-Digital/devops-config.git'
                 """
                 echo 'Completed Checkout devops-config from Git'
             }
@@ -23,7 +23,7 @@ pipeline {
 		sh """
 			cd /home/paywalletdevops/new_paywallet_backend_services/
 			rm -rf accounts-management-service
-			git branch: '${params.Branch}', changelog: false, credentialsId: 'Github-Key', poll: false, url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
+			git branch: '${params.Branch}', credentialsId: 'Github-Key', poll: false, url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
                 """
                 echo 'Completed Checkout accounts-management-service from Git'
             }
