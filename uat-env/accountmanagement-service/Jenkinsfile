@@ -1,30 +1,73 @@
 pipeline {
-    agent any
-       stages {
-
-        stage('devops-config repo sync') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config.sh
-                    '''
-                                }
-                        }
-                }
-
-        stage('Build and Deploy') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config/uat-env/accountmanagement-service.sh
-                    '''
-                                }
-                        }
-                }
+    agent {
+        label 'DSS'
     }
-      post {
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+    tools {maven 'maven3.8.1'
+          }
+    stages {
+        stage('devops-config Code checkout') {
+            steps {
+                echo 'Going to Checkout devops-config from Git'
+		sh """
+			cd /home/paywalletdevops/
+			git branch: '*/master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
+                """
+                echo 'Completed Checkout devops-config from Git'
+            }
+        }
+	stage('accounts-management-service Code checkout') {
+            steps {
+                echo 'Going to Checkout devops-config from Git'
+		sh """
+			cd /home/paywalletdevops/new_paywallet_backend_services/
+			rm -rf accounts-management-service
+			git branch: '${params.Branch}', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
+                """
+                echo 'Completed Checkout accounts-management-service from Git'
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                sh """
+			sudo docker rm -f accounts-management-service_container
+			sudo docker rmi accounts-management-service
+                """
+            }
+        }
+	stage ('Maven Build for service') {
+            steps {
+                sh """
+		    cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
+		    cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/Dockerfile-uat .
+		    cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/docker-compose-uat.yml .
+		    mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
+			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+			-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
+			-Dsonar.name=UAT-accountmanagement-service
+                """
+            }
+        }
+    	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose-uat.yml up -d
+                """
+            }
+        }
+	post {
         always {
             cleanWs()
         }
+      }
     }
 }
