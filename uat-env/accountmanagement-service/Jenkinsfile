@@ -1,66 +1,53 @@
 pipeline {
     agent {
-        label 'DSS'
+        node {
+            label 'DSS'
+		    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/accounts-management-service'
+        }
     }
 	parameters {
 		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
 	}
     stages {
-        stage('devops-config Code checkout') {
+        stage('Code checkout') {
             steps {
-                echo 'Going to Checkout devops-config from Git'
-		sudo cd /home/paywalletdevops/
-		sudo rm -rf devops-config
-		git branch: 'master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
-                echo 'Completed Checkout devops-config from Git'
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
             }
         }
-	stage('accounts-management-service Code checkout') {
-            steps {
-                echo 'Going to Checkout devops-config from Git'
-		sudo cd /home/paywalletdevops/new_paywallet_backend_services/
-		sudo rm -rf accounts-management-service
-		git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
-                echo 'Completed Checkout accounts-management-service from Git'
-            }
-        }
-	stage ('Maven Build for service') {
-            steps {
-		sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
-		sudo cp /home/paywalletdevops/devops-config/uat-env/accountmanagement-service/Dockerfile-uat .
-		sudo cp /home/paywalletdevops/devops-config/uat-env/accountmanagement-service/docker-compose-uat.yml .
-		mvn clean install -DskipTests
-            }
-        }
-	stage ('Sonarqube') {
-            steps {
-		sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
-		mvn sonar:sonar \
-			-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
-			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
-			-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
-			-Dsonar.name=UAT-accountmanagement-service
-            }
-        }
-	stage ('Remove the docker container and images') {
+		stage ('Maven Build for accounts-management-service') {
             steps {
                 sh """
-			sudo docker rm -f accounts-management-service_container
-			sudo docker rmi accounts-management-service
+                mvn clean install -DskipTests
                 """
             }
         }
-    	stage ('Run Docker-compose') {
+		stage ('Sonarqube') {
             steps {
                 sh """
-                    sudo docker-compose -f docker-compose-uat.yml up -d
+					mvn sonar:sonar \
+						-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
+						-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+						-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
+						-Dsonar.name=UAT-accountmanagement-service
+                """
+            }
+        }
+		stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+					sudo docker rm -f accounts-management-service_container
+					sudo docker rmi accounts-management-service
+                    """
+                }
+            }
+        }
+		stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
                 """
             }
         }
     }
-    post {
-        always {
-            cleanWs()
-        }
-      }
 }
