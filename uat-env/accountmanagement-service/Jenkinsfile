@@ -27,8 +27,8 @@ pipeline {
 	stage ('Maven Build for service') {
             steps {
 		sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
-		sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/Dockerfile-uat .
-		sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/docker-compose-uat.yml .
+		sudo cp /home/paywalletdevops/devops-config/uat-env/accountmanagement-service/Dockerfile-uat .
+		sudo cp /home/paywalletdevops/devops-config/uat-env/accountmanagement-service/docker-compose-uat.yml .
 		mvn clean install -DskipTests
             }
         }
