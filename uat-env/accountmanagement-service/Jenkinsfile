@@ -11,6 +11,7 @@ pipeline {
                 echo 'Going to Checkout devops-config from Git'
 		sh """
 			cd /home/paywalletdevops/
+			sudo rm -rf devops-config
 			git branch: '*/master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
                 """
                 echo 'Completed Checkout devops-config from Git'
