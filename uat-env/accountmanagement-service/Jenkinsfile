@@ -24,7 +24,7 @@ pipeline {
 			cd /home/paywalletdevops/new_paywallet_backend_services/
 			sudo rm -rf accounts-management-service
                 """
-		git branch: ${params.Branch}, credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
+		git branch: '${params.Branch}', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
                 echo 'Completed Checkout accounts-management-service from Git'
             }
         }
