@@ -4,6 +4,7 @@ pipeline {
     }
 	parameters {
 		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+	}
     tools {maven 'maven3.8.1'
           }
     stages {
