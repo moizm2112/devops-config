@@ -14,35 +14,35 @@ pipeline {
                 git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
             }
         }
-		stage ('Maven Build for accounts-management-service') {
+	stage ('Maven Build for accounts-management-service') {
             steps {
                 sh """
                 mvn clean install -DskipTests
                 """
             }
         }
-		stage ('Sonarqube') {
+	stage ('Sonarqube') {
             steps {
                 sh """
-					mvn sonar:sonar \
-						-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
-						-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
-						-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
-						-Dsonar.projectName=UAT-accountmanagement-service
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
+			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+			-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
+			-Dsonar.projectName=UAT-accountmanagement-service
                 """
             }
         }
-		stage ('Remove the docker container and images') {
+	stage ('Remove the docker container and images') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh """
-					sudo docker rm -f accounts-management-service_container
-					sudo docker rmi accounts-management-service
+			sudo docker rm -f accounts-management-service_container
+			sudo docker rmi accounts-management-service
                     """
                 }
             }
         }
-		stage ('Run Docker-compose') {
+	stage ('Run Docker-compose') {
             steps {
                 sh """
                     sudo docker-compose -f docker-compose.yml up -d
