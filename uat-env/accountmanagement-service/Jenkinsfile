@@ -9,10 +9,8 @@ pipeline {
         stage('devops-config Code checkout') {
             steps {
                 echo 'Going to Checkout devops-config from Git'
-		sh """
-			cd /home/paywalletdevops/
-			sudo rm -rf devops-config
-                """
+		sudo cd /home/paywalletdevops/
+		sudo rm -rf devops-config
 		git branch: 'master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
                 echo 'Completed Checkout devops-config from Git'
             }
@@ -20,33 +18,28 @@ pipeline {
 	stage('accounts-management-service Code checkout') {
             steps {
                 echo 'Going to Checkout devops-config from Git'
-		sh """
-			cd /home/paywalletdevops/new_paywallet_backend_services/
-			sudo rm -rf accounts-management-service
-                """
+		sudo cd /home/paywalletdevops/new_paywallet_backend_services/
+		sudo rm -rf accounts-management-service
 		git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/accounts-management-service.git'
                 echo 'Completed Checkout accounts-management-service from Git'
             }
         }
 	stage ('Maven Build for service') {
             steps {
-                sh """
-		    sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
-		    sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/Dockerfile-uat .
-		    sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/docker-compose-uat.yml .
-		    mvn clean install -DskipTests
-                """
+		sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
+		sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/Dockerfile-uat .
+		sudo cp /home/paywalletdevops/devops-config/Dev-env/accountmanagement-service/docker-compose-uat.yml .
+		mvn clean install -DskipTests
             }
         }
 	stage ('Sonarqube') {
             steps {
-                sh """
-		    mvn sonar:sonar \
+		sudo cd /home/paywalletdevops/new_paywallet_backend_services/accounts-management-service
+		mvn sonar:sonar \
 			-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
 			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
 			-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
 			-Dsonar.name=UAT-accountmanagement-service
-                """
             }
         }
 	stage ('Remove the docker container and images') {
