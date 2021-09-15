@@ -28,7 +28,7 @@ pipeline {
 						-Dsonar.projectKey=PayWallet-UAT-AccountManagement-API \
 						-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
 						-Dsonar.login=85202c46000da8b911cae32f8ebe661224b49974 \
-						-Dsonar.name=UAT-accountmanagement-service
+						-Dsonar.projectName=UAT-accountmanagement-service
                 """
             }
         }
