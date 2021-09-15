@@ -12,8 +12,8 @@ pipeline {
 		sh """
 			cd /home/paywalletdevops/
 			sudo rm -rf devops-config
-			git branch: 'master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
                 """
+		git branch: 'master', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
                 echo 'Completed Checkout devops-config from Git'
             }
         }
