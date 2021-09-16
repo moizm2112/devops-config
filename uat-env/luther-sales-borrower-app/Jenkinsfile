@@ -1,30 +1,46 @@
 pipeline {
-    agent any
-       stages {
-
-        stage('devops-config repo sync') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config.sh
-                    '''
-                                }
-                        }
-                }
-
-        stage('Build and Deploy') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config/uat-env/luther-sales-borrower-app.sh
-                    '''
-                                }
-                        }
-                }
+    environment{
+	BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
     }
-      post {
-        always {
-            cleanWs()
+    agent {
+        node {
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_frontend_services/luther-sales-borrower-app'
         }
+    }
+	parameters {
+		string(name: 'Branch', defaultValue: 'develop', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/luther-sales-borrower-app.git'
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f luther-sales-borrower-app_container
+			sudo docker rmi luther-sales-borrower-app
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
+        }
+    }
+    post {
+	success {
+		slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+	}
+	failure {
+		slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+	}
     }
 }

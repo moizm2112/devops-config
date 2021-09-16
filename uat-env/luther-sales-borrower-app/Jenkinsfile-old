@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+       stages {
+
+        stage('devops-config repo sync') {
+                steps {
+                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh'''
+                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config.sh
+                    '''
+                                }
+                        }
+                }
+
+        stage('Build and Deploy') {
+                steps {
+                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh'''
+                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config/uat-env/luther-sales-borrower-app.sh
+                    '''
+                                }
+                        }
+                }
+    }
+      post {
+        always {
+            cleanWs()
+        }
+    }
+}
