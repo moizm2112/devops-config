@@ -2,7 +2,7 @@ pipeline {
     agent {
         node {
             label 'DSS'
-		    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/accounts-management-service'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/accounts-management-service'
         }
     }
 	parameters {
