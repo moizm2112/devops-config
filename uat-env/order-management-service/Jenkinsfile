@@ -1,30 +1,53 @@
 pipeline {
-    agent any
-       stages {
-
-        stage('devops-config repo sync') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config.sh
-                    '''
-                                }
-                        }
-                }
-
-        stage('Build and Deploy') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config/uat-env/order-management-service.sh
-                    '''
-                                }
-                        }
-                }
+    agent {
+        node {
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/order-management-service'
+        }
     }
-      post {
-        always {
-            cleanWs()
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/order-management-service.git'
+            }
+        }
+	stage ('Maven Build for order-management-service') {
+            steps {
+                sh """
+                mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-UAT-Order-Service-API \
+			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+			-Dsonar.login=77e663375d0dc4f863152193d6b60c976d3a83cb \
+			-Dsonar.projectName=UAT-order-management-service
+                """
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f order-management-service_container
+			sudo docker rmi order-management-service
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
         }
     }
 }

@@ -1,30 +1,53 @@
 pipeline {
-    agent any
-       stages {
-
-        stage('devops-config repo sync') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config.sh
-                    '''
-                                }
-                        }
-                }
-
-        stage('Build and Deploy') {
-                steps {
-                    withCredentials([usernamePassword(credentialsId: 'uat-to-dss', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sh'''
-                        sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.22.2 bash devops-config/uat-env/payroll-provider-service.sh
-                    '''
-                                }
-                        }
-                }
+    agent {
+        node {
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/payroll-provider-service'
+        }
     }
-      post {
-        always {
-            cleanWs()
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/payroll-provider-service.git'
+            }
+        }
+	stage ('Maven Build for payroll-provider-service') {
+            steps {
+                sh """
+                mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-UAT-Payroll_Provider-API \
+			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000 \
+			-Dsonar.login=045d3e4a4208f9109f557cb28415b24bad272f99 \
+			-Dsonar.projectName=UAT-payroll-provider-service
+                """
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f payroll-provider-service_container
+			sudo docker rmi payroll-provider-service
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
         }
     }
 }
