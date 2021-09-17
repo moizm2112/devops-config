@@ -27,8 +27,7 @@ pipeline {
 	stage ('Sonarqube') {
             steps {
                 sh """
-		mvn sonar:sonar \
-		mvn sonar:sonar \
+		    mvn sonar:sonar \
 			-Dsonar.projectKey=PayWallet-Notification-API \
 			-Dsonar.host.url=https://sonar-dev.paywalletllc.com  \
 			-Dsonar.login=85ffcee11c519655c5cb33192d0c2e4d83ae7758 \
