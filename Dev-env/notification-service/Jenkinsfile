@@ -20,7 +20,7 @@ pipeline {
 	stage ('Maven Build for notification-service') {
             steps {
                 sh """
-                mvn clean install -DskipTests
+			mvn clean install -DskipTests
                 """
             }
         }
