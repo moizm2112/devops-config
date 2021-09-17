@@ -29,7 +29,7 @@ pipeline {
                 sh """
 		    mvn sonar:sonar \
 			-Dsonar.projectKey=PayWallet-AccountManagement-API \
-			-Dsonar.host.url=http://sonar-dev.paywalletllc.com:9000  \
+			-Dsonar.host.url=https://sonar-dev.paywalletllc.com  \
 			-Dsonar.login=11228d1e1a9bae1f3ce56cd0dcfea09835ea6bd8 \
 			-Dsonar.projectName=Dev-accountmanagement-service
                 """
