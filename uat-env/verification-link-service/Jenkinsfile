@@ -15,6 +15,9 @@ pipeline {
         stage('Code checkout') {
             steps {
                 git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/verification-link-service.git'
+		sh'''
+			sed -i 's/dev/uat/g' Dockerfile
+		'''
             }
         }
 	stage ('Maven Build for verification-link-service') {
