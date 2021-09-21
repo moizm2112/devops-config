@@ -31,6 +31,7 @@ pipeline {
 			-Dsonar.projectKey=PayWallet-helper-service-API \
 			-Dsonar.host.url=https://sonar-dev.paywalletllc.com \
 			-Dsonar.login=a88c45f32c0c61ca5a47c4577e0f3c75aa871a39
+			-Dsonar.projectName=Dev-helper-service
                 """
             }
         }
