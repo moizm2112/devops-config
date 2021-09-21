@@ -30,7 +30,7 @@ pipeline {
 		    mvn sonar:sonar \
 			-Dsonar.projectKey=Dev-helper-service \
 			-Dsonar.host.url=https://sonar-dev.paywalletllc.com \
-			-Dsonar.login=56e4d936032986921b2ee294e6b55b98d213d18c
+			-Dsonar.login=56e4d936032986921b2ee294e6b55b98d213d18c \
 			-Dsonar.projectName=Dev-helper-service
                 """
             }
