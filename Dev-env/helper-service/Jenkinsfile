@@ -5,7 +5,7 @@ pipeline {
     agent {
         node {
             label 'DSS'
-	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/helper-service
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/helper-service'
         }
     }
 	parameters {
