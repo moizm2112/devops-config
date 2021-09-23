@@ -1,22 +1,53 @@
 pipeline {
-    agent any 
-       stages {
-
-        stage('ssh into remote') {   
-			steps {
-				withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-				sh'''
-        
-					sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.2.3 bash devops-config/Dev-env/verification-link-service.sh
-          
-				'''
-				}
-			}
-		}
+    environment{
+        BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
     }
-	  post {
-        always {
-            cleanWs()
+    agent {
+        node {
+            label 'DSS-BE'
+	    customWorkspace '/home/paywalletdevops/prod_backend/verification-link-service'
         }
-    } 
+    }
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-production', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/verification-link-service.git'
+            }
+        }
+	stage ('Maven Build for verification-link-service') {
+            steps {
+                sh """
+                mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f verification-link-service_container
+			sudo docker rmi verification-link-service
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
+        }
+    }
+    post {
+        success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+        failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+    }
 }

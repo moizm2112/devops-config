@@ -4,23 +4,37 @@ pipeline {
     }
     agent {
         node {
-            label 'DSS-BE'
-	    customWorkspace '/home/paywalletdevops/prod_backend/payroll-provider-service'
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/helper-service
         }
     }
 	parameters {
-		string(name: 'Branch', defaultValue: 'temp-production', description: 'Enter the branch to deploy?')
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
 	}
     stages {
         stage('Code checkout') {
             steps {
-                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/payroll-provider-service.git'
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/helper-service.git'
+                sh'''
+                        sed -i 's/dev/uat/g' Dockerfile
+                '''
             }
         }
-	stage ('Maven Build for payroll-provider-service') {
+	stage ('Maven Build for helper-service') {
             steps {
                 sh """
                 mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=UAT-helper-service \
+			-Dsonar.host.url=https://sonar-dev.paywalletllc.com \
+			-Dsonar.login=6e3c5187a1c8fc2d727f00bf69c05b21deb91fa9
+			-Dsonar.projectName=UAT-helper-service
                 """
             }
         }
@@ -28,8 +42,8 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh """
-			sudo docker rm -f payroll-provider-service_container
-			sudo docker rmi payroll-provider-service
+			sudo docker rm -f helper-service_container
+			sudo docker rmi helper-service
                     """
                 }
             }

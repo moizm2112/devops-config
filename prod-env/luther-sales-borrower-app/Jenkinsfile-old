@@ -1,0 +1,22 @@
+pipeline {
+    agent any 
+       stages {
+
+        stage('ssh into remote') {   
+			steps {
+				withCredentials([usernamePassword(credentialsId: 'dev-vm', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+				sh'''
+					sshpass -p $PASSWORD ssh -o "StrictHostKeyChecking=no" $USERNAME@10.0.2.3  bash devops-config/Dev-env/luther-sales-borrower-app.sh
+				'''
+				}
+			}
+		}
+    }
+
+      post {
+        always {
+            cleanWs()
+        }
+    } 
+
+}

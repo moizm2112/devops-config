@@ -1,0 +1,15 @@
+pipeline {
+    agent any 
+       stages {
+
+        stage('ssh into remote') {   
+                        steps {
+				withCredentials([usernamePassword(credentialsId: 'prod-server-access', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                                sh'''
+					sshpass -p $PASSWORD ssh $USERNAME@10.3.0.7 bash devops-config/Dev-env/accountmanagement-service.sh
+                                '''
+                                }
+                        }
+                }
+    }
+}
