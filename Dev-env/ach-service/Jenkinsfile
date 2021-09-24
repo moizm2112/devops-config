@@ -30,7 +30,7 @@ pipeline {
 		    mvn sonar:sonar \
 			-Dsonar.projectKey=PayWallet-UAT-ach-service-API \
 			-Dsonar.host.url=https://sonar-dev.paywalletllc.com \
-			-Dsonar.login=04626786aa52b07b331824f8b9f42d0a1944ce63
+			-Dsonar.login=04626786aa52b07b331824f8b9f42d0a1944ce63 \
 			-Dsonar.projectName=Dev-ach-service
                 """
             }
