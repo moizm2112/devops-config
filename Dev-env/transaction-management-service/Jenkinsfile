@@ -1,0 +1,64 @@
+pipeline {
+    environment{
+	BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
+    }
+    agent {
+        node {
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/transaction-management-service'
+        }
+    }
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout for transaction-management-service') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/transaction-management-service.git'
+            }
+        }
+	stage ('Maven Build for transaction-management-service') {
+            steps {
+                sh """
+                mvn clean install -DskipTests
+                """
+            }
+        }
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-transaction-management-service \
+			-Dsonar.host.url=https://sonar-dev.paywalletllc.com  \
+			-Dsonar.login=97d368d647cd6005431bb657d8096ac2e950a9e6 \
+			-Dsonar.projectName=Dev-transaction-management-service
+                """
+            }
+        }
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f transaction-management-service_container
+			sudo docker rmi transaction-management-service
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
+        }
+    }
+    post {
+        success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+        failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+    }
+}
