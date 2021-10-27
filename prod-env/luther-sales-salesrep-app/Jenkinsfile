@@ -5,7 +5,7 @@ pipeline {
     agent {
         node {
             label 'DSS-FE'
-	    customWorkspace '/home/paywalletdevops/new_paywallet_frontend_services/luther-sales-salesrep-app'
+	    customWorkspace '/home/paywalletdevops/Prod_frontend-services/luther-sales-salesrep-app'
         }
     }
 	parameters {
