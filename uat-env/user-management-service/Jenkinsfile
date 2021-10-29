@@ -15,6 +15,9 @@ pipeline {
         stage('Code checkout') {
             steps {
                 git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/user-management-service.git'
+		sh'''
+			sed -i 's/dev/uat/g' Dockerfile
+		'''
             }
         }
 	stage ('Maven Build for user-management-service') {
