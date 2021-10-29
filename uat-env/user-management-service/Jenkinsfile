@@ -33,7 +33,7 @@ pipeline {
 		    mvn sonar:sonar \
 			-Dsonar.projectKey=UAT-user-management-service \
 			-Dsonar.host.url=https://sonar-dev.paywalletllc.com \
-			-Dsonar.login=e57a0e817a616e56acc0f1ff54f4a7dd01f3d46f
+			-Dsonar.login=e57a0e817a616e56acc0f1ff54f4a7dd01f3d46f \
 			-Dsonar.projectName=UAT-user-management-service
                 """
             }
