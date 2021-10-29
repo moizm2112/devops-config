@@ -1,0 +1,66 @@
+pipeline {
+    environment{
+	BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
+    }
+    agent {
+        node {
+            label 'DSS'
+	    customWorkspace '/home/paywalletdevops/new_paywallet_backend_services/user-management-service'
+        }
+    }
+	parameters {
+		string(name: 'Branch', defaultValue: 'temp-develop', description: 'Enter the branch to deploy?')
+	}
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/user-management-service.git'
+            }
+        }
+	stage ('Maven Build for user-management-service') {
+            steps {
+                sh """
+                mvn clean install -DskipTests
+                """
+            }
+        }
+/*
+	stage ('Sonarqube') {
+            steps {
+                sh """
+		    mvn sonar:sonar \
+			-Dsonar.projectKey=PayWallet-Order-Service-API \
+			-Dsonar.host.url=https://sonar-dev.paywalletllc.com  \
+			-Dsonar.login=11f49e0549ef52f75442dc9c2762b7d89db4c76e \
+			-Dsonar.projectName=Dev-order-management-service
+                """
+            }
+        }
+*/
+	stage ('Remove the docker container and images') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh """
+			sudo docker rm -f user-management-service_container
+			sudo docker rmi user-management-service
+                    """
+                }
+            }
+        }
+	stage ('Run Docker-compose') {
+            steps {
+                sh """
+                    sudo docker-compose -f docker-compose.yml up -d
+                """
+            }
+        }
+    }
+    post {
+        success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+        failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${BUILD_TRIGGER_BY}")
+        }       
+    }
+}
