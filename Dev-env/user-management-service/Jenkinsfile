@@ -33,6 +33,7 @@ pipeline {
                         -Dsonar.login=844cb0d9224da35909db0c396f0c9d949a89c526 \
                         -Dsonar.projectName=Dev-user-management-service
                 """
+            }
         }
 	stage ('Remove the docker container and images') {
             steps {
