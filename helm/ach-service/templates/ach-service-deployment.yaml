@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "ach-service.fullname" . }}
+  labels:
+    app: {{ template "ach-service.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    namespace: "{{ .Release.Namespace }}"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ template "ach-service.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "ach-service.name" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+        namespace: "{{ .Release.Namespace }}"
+    spec:
+      containers:
+        - name: ach-service
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: {{ template "ach-service.name" . }}-configmap
+              mountPath: /config/
+          livenessProbe:
+            httpGet:
+              path: /{{ template "ach-service.name" . }}/health
+              port: http
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /{{ template "ach-service.name" . }}/health
+              port: http
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 10
+      volumes:
+        - name: {{ template "ach-service.name" . }}-configmap
+          configMap:
+            name: {{ template "ach-service.name" . }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+

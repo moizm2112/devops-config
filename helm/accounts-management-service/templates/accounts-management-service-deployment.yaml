@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "accounts-management-service.fullname" . }}
+  labels:
+    app: {{ template "accounts-management-service.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    namespace: "{{ .Release.Namespace }}"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ template "accounts-management-service.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "accounts-management-service.name" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+        namespace: "{{ .Release.Namespace }}"
+    spec:
+      containers:
+        - name: accounts-management-service
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: {{ template "accounts-management-service.name" . }}-configmap
+              mountPath: /config/
+          livenessProbe:
+            httpGet:
+              path: /{{ template "accounts-management-service.name" . }}/health
+              port: http
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /{{ template "accounts-management-service.name" . }}/health
+              port: http
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 10
+      volumes:
+        - name: {{ template "accounts-management-service.name" . }}-configmap
+          configMap:
+            name: {{ template "accounts-management-service.name" . }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+
