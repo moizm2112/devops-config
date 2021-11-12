@@ -2,7 +2,7 @@ Expand the name of the chart.
 */}}
 {{- define "notification-service.name" -}}
     {{- $name := default .Chart.Name .Values.nameOverride -}}
-    {{- printf "%s-notification-service" .Release.Name  | trunc 63 | trimSuffix "-" -}}
+    {{- printf .Release.Name  | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
