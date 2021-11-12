@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  {{ if .Values.service.name }}
+  name: {{ .Values.service.name }}
+  {{ else }}
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  {{ end }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: http
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.internalPort }}
+  selector:
+    component: {{ .Release.Name }}

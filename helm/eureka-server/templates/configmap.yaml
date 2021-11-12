@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Release.Name }}
+data:
+  bootstrap.yaml: |+
+    spring:
+      application:
+        name: {{ .Release.Name }}
+      cloud:
+        config:
+{{ if .Values.spring.cloud.config.enabled }}
+          enabled: {{ .Values.spring.cloud.config.enabled }}
+          uri: {{ required "A valid value of spring.cloud.config.uri is required!" .Values.spring.cloud.config.uri }}
+{{ else }}
+          enabled: false
+{{ end }}
+
+  application.yaml: |+    
+    server:
+      port: {{ .Values.service.internalPort }}    
+    eureka:
+      instance:
+        hostname: {{ .Release.Name }}
+      client:
+        registerWithEureka: false
+        fetchRegistry: false
+        serviceUrl:
+          defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
