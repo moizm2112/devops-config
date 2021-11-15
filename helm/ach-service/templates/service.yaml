@@ -1,9 +1,9 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ template "notification-service.name" . }}
+  name: {{ template "ach-service.fullname" . }}
   labels:
-    app: {{ template "notification-service.name" . }}
+    app: {{ template "ach-service.name" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     namespace: "{{ .Release.Namespace }}"
@@ -14,5 +14,5 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
   selector:
-    app: {{ template "notification-service.name" . }}
+    app: {{ template "ach-service.name" . }}
     release: "{{ .Release.Name }}"
