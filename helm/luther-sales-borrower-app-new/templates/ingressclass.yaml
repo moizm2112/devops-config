@@ -1,0 +1,30 @@
+{{- if .Values.createIngressClassResource }}
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: {{ .Values.ingressClass }}
+  labels:
+    {{- include "aws-load-balancer-controller.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  controller: ingress.k8s.aws/alb
+  rules:
+    - host: sandbox1-dev.paywalletllc.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: luther-sales-borrower-app
+                port:
+                  number: 8080
+  tls: 
+    - 
+      hosts: 
+        - sandbox1-dev.paywalletllc.com
+      secretName: sandbox1-dev-tls-secret
+{{- end }}
