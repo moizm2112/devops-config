@@ -1,0 +1,26 @@
+service:
+  port: 80
+  targetPort: 8080
+  
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/luther-sales-salesrep-app"
+imageTag: "1.1"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500M
+
+readinessProbe:
+  initialDelaySeconds: 120
+
+livenessProbe:
+  initialDelaySeconds: 120
+
+configMap:
+  spring.profiles.active: dev
+  SERVER_PORT: "8080"
+  APPLICATION_NAME: luther-sales-salesrep
+  EUREKA_SERVICEURL_DEFALTZONE: http://eureka-server:8761/eureka

@@ -1,8 +1,8 @@
 service:
   port: 80
   targetPort: 8080
-
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/notification-service"
+  
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/verification-link-service"
 imageTag: "1.1"
 imagepullPolicy: Always
 resources:
@@ -23,7 +23,8 @@ configMap:
   spring.profiles.active: dev
   SERVER_PORT: "8080"
   MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-  TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
-  TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
-  APPLICATION_NAME: notification
-  DEFAULT_URL: http://eureka-server:8761/eureka
+  LINK_EXPIRYTIME: 4320
+  OTP_EUREKA_URI: http://OTP-SERVICE
+  APPLICATION_NAME: verification-link
+  EUREKA_CLIENT_SERVICEURL: http://eureka-server:8761/eureka
+

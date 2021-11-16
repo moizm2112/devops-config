@@ -1,18 +1,17 @@
-# Global Docker Registry Settings
-image:
-  registry:
-  pullPolicy: Always
-# Optionally specify an array of imagePullSecrets.
-# Secrets must be manually created in the namespace.
-# ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
-imagePullSecrets:
-  - name: acr-auth
+service:
+  port: 80
+  targetPort: 8080
 
-dbType: mssql
-
-debug:
-  enabled: false
-  port: 5005
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/notification-service"
+imageTag: "1.1"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500M
 
 readinessProbe:
   initialDelaySeconds: 120
@@ -20,28 +19,11 @@ readinessProbe:
 livenessProbe:
   initialDelaySeconds: 120
 
-build:
-  number: 0
-
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/notification-service"
-imageTag: "1.1"
-resources:
-  limits:
-    cpu: 1000m
-    memory: 2Gi
-  requests:
-    cpu: 250m
-    memory: 1Gi
-
-service:
-  port: 80
-  targetPort: 8080
-
-configmap:
-  SERVER_PORT: 8080
-  MONGODB_Host: mongodb://user:password%40123@10.0.2.3:27017/luthersales
+configMap:
+  spring.profiles.active: dev
+  SERVER_PORT: "8080"
+  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
   TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
   TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
-  PHONENUMBER: "+16189364665"
-  APPLICATION_NAME: notification-service
+  APPLICATION_NAME: notification
   DEFAULT_URL: http://eureka-server:8761/eureka
