@@ -1,0 +1,4 @@
+apiVersion: v2
+name: aws-load-balancer-controller-borrower-app
+version: 0.1.0
+description: luther-sales-borrower-app

@@ -1,0 +1,53 @@
+# Global Docker Registry Settings
+image:
+  registry:
+  pullPolicy: Always
+
+
+dbType: mssql
+
+debug:
+  enabled: false
+  port: 5005
+
+readinessProbe:
+  initialDelaySeconds: 120
+
+livenessProbe:
+  initialDelaySeconds: 120
+
+build:
+  number: 0
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/otp-service"
+imageTag: "1.0"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500M
+
+service:
+  port: 8080
+  targetPort: 8080
+
+configMap:
+  spring.profiles.active: dev
+  SERVER_PORT: "8080"
+  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
+  OTP_EXPIRY_TIME: 10
+  NOTIFICATION_EUREKA_URL: http://NOTIFICATION-SERVICE
+  NOTIFICATION_SMS_URL: /api/v1/notifications/sms
+  NOTIFICATION_EMAIL_SERVICE: /api/v1/notifications/email
+  NOTIFICATION_SMS_TEMPLATE: LutherSales:  Otp is the single use security code you requested. This will expire in ${otp.expiryTimeInMins} minutes. Do not share it- We will never contact you to ask for it
+  KEY_CLOAK: luther-sales
+  KEY_CLOAK_AUTH_SERVER_URL: https://sandbox1-dev.paywalletllc.com/auth/realms/
+  KEY_CLOAK_CLIENTID: kong}
+  KEY_CLOAK_CLENT_SECRET: db2a2703-2e33-4186-9652-20db7d9024e8  
+  TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
+  TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
+  APPLICATION_NAME: otp-service
+  DEFAULT_URL: http://eureka-server:8761/eureka
