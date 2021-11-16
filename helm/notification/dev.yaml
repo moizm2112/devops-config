@@ -1,0 +1,44 @@
+# Global Docker Registry Settings
+image:
+  registry:
+  pullPolicy: Always
+
+
+dbType: mssql
+
+debug:
+  enabled: false
+  port: 5005
+
+readinessProbe:
+  initialDelaySeconds: 120
+
+livenessProbe:
+  initialDelaySeconds: 120
+
+build:
+  number: 0
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/notification-service"
+imageTag: "1.1"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500M
+
+service:
+  port: 80
+  targetPort: 8080
+
+configMap:
+  spring.profiles.active: dev
+  SERVER_PORT: "8080"
+  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
+  TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
+  TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
+  APPLICATION_NAME: notification
+  DEFAULT_URL: http://eureka-server:8761/eureka

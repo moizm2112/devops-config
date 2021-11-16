@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: payuw-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/security-groups: sg-09960e517541935ab
+spec:
+  rules:
+  - host:
+    http:
+      paths:
+      - path: /registry/*
+        backend:
+          serviceName: eureka-server
+          servicePort: 8761
+      - path: /notification-service/*
+        backend:
+          serviceName: notification-service
+          servicePort: 80

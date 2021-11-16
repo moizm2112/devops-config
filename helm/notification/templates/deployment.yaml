@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "notification-service.name" . }}
+  name: {{ template "serviceId.name" . }}
   labels:
-    app: {{ template "notification-service.name" . }}
+    app: {{ template "serviceId.name" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -12,12 +12,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "notification-service.name" . }}
+      app: {{ template "serviceId.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "notification-service.name" . }}
+        app: {{ template "serviceId.name" . }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
@@ -33,14 +33,14 @@ spec:
             - name: http
               containerPort: 8080
           volumeMounts:
-            - name: {{ template "notification-service.name" . }}-configmap
+            - name: {{ template "serviceId.name" . }}-configmap
               mountPath: /config/
           envFrom:
             - configMapRef:
-                name: {{ template "notification-service.name" . }} 
+                name: {{ template "serviceId.name" . }} 
           # livenessProbe:
           #   httpGet:
-          #     path: /{{ template "notification-service.name" . }}/health
+          #     path: /{{ template "serviceId.name" . }}/health
           #     port: http
           #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           #   periodSeconds: 20
@@ -48,16 +48,16 @@ spec:
           #   failureThreshold: 10
           # readinessProbe:
           #   httpGet:
-          #     path: /{{ template "notification-service.name" . }}/health
+          #     path: /{{ template "serviceId.name" . }}/health
           #     port: http
           #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           #   periodSeconds: 20
           #   timeoutSeconds: 10
           #   failureThreshold: 10
       volumes:
-        - name: {{ template "notification-service.name" . }}-configmap
+        - name: {{ template "serviceId.name" . }}-configmap
           configMap:
-            name: {{ template "notification-service.name" . }}
+            name: {{ template "serviceId.name" . }}
 
 
 
