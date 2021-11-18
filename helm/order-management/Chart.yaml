@@ -1,5 +1,5 @@
 apiVersion: v2
-name: notification 
+name: order-management 
 version: 1.0
-description: notification
+description: order-management
 

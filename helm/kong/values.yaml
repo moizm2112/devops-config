@@ -1,0 +1,65 @@
+service:
+  port: 80
+  targetPort: 8080
+
+imageRepository: "kong"
+imageTag: "2.6"
+imagepullPolicy: Always
+
+resources: {}
+# readinessProbe for Kong pods
+readinessProbe:
+  httpGet:
+    path: "/status"
+    port: status
+    scheme: HTTP
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+# livenessProbe for Kong pods
+livenessProbe:
+  httpGet:
+    path: "/status"
+    port: status
+    scheme: HTTP
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+terminationGracePeriodSeconds: 30
+
+secert:
+  kong: payukong
+
+configMap:
+  KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+  KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+  KONG_ADMIN_GUI_ACCESS_LOG: "/dev/stdout"
+  KONG_ADMIN_GUI_ERROR_LOG: "/dev/stderr"
+  KONG_ADMIN_LISTEN: "0.0.0.0:8444 http2 ssl"
+  KONG_CLUSTER_LISTEN: "off"
+  KONG_DATABASE: "postgres"
+  KONG_LUA_PACKAGE_PATH: "/opt/?.lua;/opt/?/init.lua;;"
+  KONG_NGINX_WORKER_PROCESSES: "2"
+  KONG_PG_DATABASE: "kong"
+  KONG_PG_HOST: "dev-kong.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com"
+  KONG_PG_PORT: "5432"
+  KONG_PG_TIMEOUT: "5000"
+  KONG_PG_USER: "kong"
+  KONG_PLUGINS: "bundled"
+  KONG_PORTAL_API_ACCESS_LOG: "/dev/stdout"
+  KONG_PORTAL_API_ERROR_LOG: "/dev/stderr"
+  KONG_PORT_MAPS: "80:8000, 443:8443"
+  KONG_PREFIX: "/kong_prefix/"
+  KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+  KONG_PROXY_ERROR_LOG: "/dev/stderr"
+  KONG_PROXY_LISTEN: "0.0.0.0:8000, 0.0.0.0:8443 http2 ssl"
+  KONG_STATUS_LISTEN: "0.0.0.0:8100"
+  KONG_STREAM_LISTEN: "off"
+  KONG_NGINX_DAEMON: "off"
+

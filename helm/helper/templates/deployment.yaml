@@ -24,7 +24,7 @@ spec:
         namespace: "{{ .Release.Namespace }}"
     spec:
       containers:
-        - name: notification-service
+        - name: {{ template "serviceId.name" . }}
           image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
           imagePullPolicy: {{ .Values.imagepullPolicy }}
           resources:
