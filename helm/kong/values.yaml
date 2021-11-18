@@ -33,6 +33,13 @@ livenessProbe:
 
 terminationGracePeriodSeconds: 30
 
+# Enable/disable migration jobs, and set annotations for them
+migrations:
+  # Enable pre-upgrade migrations (run "kong migrations up")
+  preUpgrade: true
+  # Enable post-upgrade migrations (run "kong migrations finish")
+  postUpgrade: true
+
 secert:
   kong: payukong
 

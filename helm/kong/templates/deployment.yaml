@@ -23,6 +23,45 @@ spec:
         heritage: "{{ .Release.Service }}"
         namespace: "{{ .Release.Namespace }}"
     spec:
+      initContainers:
+        - name: clear-stale-pid
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          command:
+          - "rm"
+          - "-vrf"
+          - "$KONG_PREFIX/pids"
+          envFrom:
+            - configMapRef:
+                name: {{ template "serviceId.name" . }}
+          env:      
+            - name: KONG_PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "serviceId.name" . }}
+                  key: {{ template "serviceId.name" . }}-password
+          volumeMounts:
+            - name: {{ template "serviceId.name" . }}-prefix-dir
+              mountPath: /kong_prefix/
+            - name: {{ template "serviceId.name" . }}-tmp
+              mountPath: /tmp
+        - name: wait-for-db
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          envFrom:
+            - configMapRef:
+                name: {{ template "serviceId.name" . }}
+          env:      
+            - name: KONG_PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "serviceId.name" . }}
+                  key: {{ template "serviceId.name" . }}-password
+          args: [ "/bin/sh", "-c", "export KONG_NGINX_DAEMON=on; until kong start; do echo 'waiting for db'; sleep 1; done; kong stop; rm -fv '/kong_prefix//stream_rpc.sock'"]        
+          volumeMounts:
+            - name: {{ template "serviceId.name" . }}-prefix-dir
+              mountPath: /kong_prefix/
+            - name: {{ template "serviceId.name" . }}-tmp
+              mountPath: /tmp
+      
       containers:
         - name: {{ template "serviceId.name" . }}
           image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
