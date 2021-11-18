@@ -3,7 +3,7 @@ service:
   targetPort: 8080
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/new-payroll-provider-service"
-imageTag: "1.1"
+imageTag: "d70f735"
 imagepullPolicy: Always
 resources:
   limits:

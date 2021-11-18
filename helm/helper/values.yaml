@@ -3,7 +3,7 @@ service:
   targetPort: 8080
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/helper-service"
-imageTag: "1.1"
+imageTag: "1bc56fc"
 imagepullPolicy: Always
 resources:
   limits:

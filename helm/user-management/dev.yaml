@@ -3,7 +3,7 @@ service:
   targetPort: 8080
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/user-management-service"
-imageTag: "1.1"
+imageTag: "f7f46f9"
 imagepullPolicy: Always
 resources:
   limits:
