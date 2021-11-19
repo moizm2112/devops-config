@@ -23,8 +23,7 @@ configMap:
   spring.profiles.active: dev
   SERVER_PORT: "8080"
   MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-  LINK_EXPIRYTIME: 4320
+  LINK_EXPIRYTIME: "4320"
   OTP_EUREKA_URI: http://OTP-SERVICE
   APPLICATION_NAME: verification-link
   EUREKA_CLIENT_SERVICEURL: http://eureka-server:8761/eureka
-
