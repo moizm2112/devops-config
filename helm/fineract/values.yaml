@@ -1,0 +1,38 @@
+service:
+  port: 80
+  targetPort: 8080
+
+imageRepository: "apache/fineract"
+imageTag: "latest"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 1Gi
+
+livenessProbe:
+  httpGet:
+    path: /fineract-provider/actuator/health/liveness
+    port: 8080
+  initialDelaySeconds: 180
+  periodSeconds: 1
+readinessProbe:
+  httpGet:
+    path: /fineract-provider/actuator/health/readiness
+    port: 8080
+  initialDelaySeconds: 180
+  periodSeconds: 1
+
+configMap:
+  SERVER_PORT: "8080"
+  DRIVERCLASS_NAME: org.drizzle.jdbc.DrizzleDriver  
+  PROTOCOL: jdbc
+  SUB_PROTOCOL: mysql:thin
+  node_id: "1"
+  fineract_tenants_driver: org.drizzle.jdbc.DrizzleDriver
+  fineract_tenants_url: jdbc:mysql:thin://dev-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com:3306/fineract_tenants
+  FINERACT_DEFAULT_TENANTDB_HOSTNAME: dev-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
+  FINERACT_DEFAULT_TENANTDB_PORT: "3306"

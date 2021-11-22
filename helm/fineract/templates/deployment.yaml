@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "serviceId.name" . }}
+  labels:
+    app: {{ template "serviceId.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    namespace: "{{ .Release.Namespace }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "serviceId.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "serviceId.name" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+        namespace: "{{ .Release.Namespace }}"
+    spec:
+      containers:
+        - name: {{ template "serviceId.name" . }}
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.imagepullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+            - name: {{ template "serviceId.name" . }}-configmap
+              mountPath: /config/
+          envFrom:
+            - configMapRef:
+                name: {{ template "serviceId.name" . }}
+          env:
+            - name: FINERACT_DEFAULT_TENANTDB_UID
+              valueFrom:
+                secretKeyRef:
+                  name: fineract-tenants-db-secret
+                  key: username
+            - name: FINERACT_DEFAULT_TENANTDB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: fineract-tenants-db-secret
+                  key: password
+            - name: fineract_tenants_uid
+              valueFrom:
+                secretKeyRef:
+                  name: fineract-tenants-db-secret
+                  key: username
+            - name: fineract_tenants_pwd
+              valueFrom:
+                secretKeyRef:
+                  name: fineract-tenants-db-secret
+                  key: password      
+          readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 12 }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
+      volumes:
+        - name: {{ template "serviceId.name" . }}-configmap
+          configMap:
+            name: {{ template "serviceId.name" . }}
+
+
+
