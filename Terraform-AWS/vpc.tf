@@ -21,7 +21,7 @@ resource "aws_subnet" "paywallet" {
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   cidr_block              = "10.0.${count.index}.0/24"
   map_public_ip_on_launch = true
-  vpc_id                  = aws_vpc.demo.id
+  vpc_id                  = aws_vpc.paywallet.id
 
   tags = tomap({
     "Name"                                      = "terraform-eks-paywallet-node",
@@ -46,9 +46,9 @@ resource "aws_route_table" "paywallet" {
   }
 }
 
-resource "aws_route_table_association" "demo" {
+resource "aws_route_table_association" "paywallet" {
   count = 2
 
-  subnet_id      = aws_subnet.demo.*.id[count.index]
+  subnet_id      = aws_subnet.paywallet.*.id[count.index]
   route_table_id = aws_route_table.paywallet.id
 }
