@@ -24,4 +24,3 @@ configMap:
   REACT_APP_ARGYLE_PLUGIN_KEY: 114b8dfa-dd26-4ae9-b2e0-cd1c838a2503
   REACT_APP_ARGYLE_HOST: https://api-sandbox.argyle.io/v1
   REACT_APP_CLIENT_ID: "Luther Sales"
-  REACT_APP_LOGS=true
