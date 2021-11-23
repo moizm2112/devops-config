@@ -20,8 +20,8 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  APPLICATION_NAME: luther-sales-borrower
-  EUREKA_SERVICEURL_DEFALTZONE: http://eureka-server:8761/eureka
-
+  REACT_APP_API_URL: https://k8s-dev-payuwing-73a4a32005-1812154358.us-east-1.elb.amazonaws.com/api/v1/
+  REACT_APP_ARGYLE_PLUGIN_KEY: 114b8dfa-dd26-4ae9-b2e0-cd1c838a2503
+  REACT_APP_ARGYLE_HOST: https://api-sandbox.argyle.io/v1
+  REACT_APP_CLIENT_ID: "Luther Sales"
+  REACT_APP_LOGS=true
