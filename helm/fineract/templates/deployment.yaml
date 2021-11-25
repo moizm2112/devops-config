@@ -42,22 +42,22 @@ spec:
             - name: FINERACT_DEFAULT_TENANTDB_UID
               valueFrom:
                 secretKeyRef:
-                  name: fineract-tenants-db-secret
+                  name: {{ template "serviceId.name" . }}
                   key: username
             - name: FINERACT_DEFAULT_TENANTDB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: fineract-tenants-db-secret
+                  name: {{ template "serviceId.name" . }}
                   key: password
             - name: fineract_tenants_uid
               valueFrom:
                 secretKeyRef:
-                  name: fineract-tenants-db-secret
+                  name: {{ template "serviceId.name" . }}
                   key: username
             - name: fineract_tenants_pwd
               valueFrom:
                 secretKeyRef:
-                  name: fineract-tenants-db-secret
+                  name: {{ template "serviceId.name" . }}
                   key: password      
           readinessProbe:
 {{ toYaml .Values.readinessProbe | indent 12 }}
