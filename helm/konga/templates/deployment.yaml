@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "serviceId.name" . }}
+  labels:
+    app: {{ template "serviceId.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    namespace: "{{ .Release.Namespace }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "serviceId.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "serviceId.name" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+        namespace: "{{ .Release.Namespace }}"
+    spec:
+      containers:
+        - name: {{ template "serviceId.name" . }}
+          image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.imagepullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+          - name: http
+            containerPort: 1337
+            protocol: TCP
+          volumeMounts:
+            - name: {{ template "serviceId.name" . }}-prefix-dir
+              mountPath: /konga_prefix/
+            - name: {{ template "serviceId.name" . }}-tmp
+              mountPath: /tmp  
+          envFrom:
+            - configMapRef:
+                name: {{ template "serviceId.name" . }}
+          readinessProbe:
+{{ toYaml .Values.readinessProbe | indent 12 }}
+          livenessProbe:
+{{ toYaml .Values.livenessProbe | indent 12 }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}    
+      volumes:
+        - name: {{ template "serviceId.name" . }}-prefix-dir
+          emptyDir: {}
+        - name: {{ template "serviceId.name" . }}-tmp
+          emptyDir: {}
+
+
+

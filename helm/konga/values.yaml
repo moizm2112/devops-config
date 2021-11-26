@@ -1,0 +1,49 @@
+service:
+  port: 80
+  targetPort: 8080
+
+imageRepository: pantsel/konga
+imageTag: latest
+imagepullPolicy: Always
+
+resources: {}
+# readinessProbe for Kong pods
+readinessProbe:
+  httpGet:
+    path: "/status"
+    port: status
+    scheme: HTTP
+  initialDelaySeconds: 300
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+# livenessProbe for Kong pods
+livenessProbe:
+  httpGet:
+    path: "/status"
+    port: status
+    scheme: HTTP
+  initialDelaySeconds: 300
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+terminationGracePeriodSeconds: 30
+
+secert:
+  kong: payukong
+
+configMap:
+   port: "1337"
+   node_env: "development"
+   konga_hook_timeout: "60000"
+   db_adapter: postgres
+   db_host: dev-kong.cluster-ro-ckluizvytk2n.us-east-1.rds.amazonaws.com
+   db_port: "5432"
+   db_user: "kong"
+   db_password: "payukong"
+   db_database: postgres
+   log_level: "debug"
