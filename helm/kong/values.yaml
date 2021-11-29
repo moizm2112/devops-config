@@ -40,9 +40,6 @@ migrations:
   # Enable post-upgrade migrations (run "kong migrations finish")
   postUpgrade: true
 
-secert:
-  kong: payukong
-
 configMap:
   KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
   KONG_ADMIN_ERROR_LOG: "/dev/stderr"
