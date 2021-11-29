@@ -42,7 +42,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ template "serviceId.name" . }}
-              key: {{ template "serviceId.name" . }}-password      
+              key: kong-password      
         args: [ "kong", "migrations", "bootstrap" ]
         volumeMounts:
           - name: {{ template "serviceId.name" . }}-prefix-dir
