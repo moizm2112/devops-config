@@ -54,7 +54,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ template "serviceId.name" . }}
-                  key: {{ template "serviceId.name" . }}-password
+                  key: kong-password
           args: [ "/bin/sh", "-c", "export KONG_NGINX_DAEMON=on; until kong start; do echo 'waiting for db'; sleep 1; done; kong stop; rm -fv '/kong_prefix//stream_rpc.sock'"]        
           volumeMounts:
             - name: {{ template "serviceId.name" . }}-prefix-dir
@@ -101,7 +101,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ template "serviceId.name" . }}
-                  key: {{ template "serviceId.name" . }}-password      
+                  key: kong-password      
 
           readinessProbe:
 {{ toYaml .Values.readinessProbe | indent 12 }}
