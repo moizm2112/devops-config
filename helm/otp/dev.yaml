@@ -27,11 +27,3 @@ configMap:
   NOTIFICATION_EUREKA_URL: http://NOTIFICATION-SERVICE
   NOTIFICATION_SMS_URL: /api/v1/notifications/sms
   NOTIFICATION_EMAIL_SERVICE: /api/v1/notifications/email
-  KEY_CLOAK: luther-sales
-  KEY_CLOAK_AUTH_SERVER_URL: https://sandbox1-dev.paywalletllc.com/auth/realms/
-  KEY_CLOAK_CLIENTID: kong}
-  KEY_CLOAK_CLENT_SECRET: db2a2703-2e33-4186-9652-20db7d9024e8  
-  TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
-  TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
-  APPLICATION_NAME: otp
-  DEFAULT_URL: http://eureka-server:8761/eureka
