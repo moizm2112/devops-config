@@ -21,9 +21,3 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-  OTP_EXPIRY_TIME: 10
-  NOTIFICATION_EUREKA_URL: http://NOTIFICATION-SERVICE
-  NOTIFICATION_SMS_URL: /api/v1/notifications/sms
-  NOTIFICATION_EMAIL_SERVICE: /api/v1/notifications/email
