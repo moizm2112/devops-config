@@ -21,9 +21,3 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-  TWILLIO.ACCOUNTSID: ACe5cd554ad621b5e5571fe90f71b45c7f
-  TWILLIO.AUTHTOKEN: d8fe1e6633f44cc2bd0acc2bbff61af1
-  APPLICATION_NAME: notification
-  DEFAULT_URL: http://eureka-server:8761/eureka
