@@ -1,0 +1,11 @@
+OUTGOINGFILE=PaywalletLenderCredits"`date +"%y%m%d"`".txt
+cp /home/paywalletdevops/ach/automate/sampleAchOutgoingFile /home/paywalletdevops/ach/automate/"$OUTGOINGFILE"
+/home/paywalletdevops/ach/automate/generatesftpbatch "$OUTGOINGFILE" > /home/paywalletdevops/ach/automate/sftpbatch
+date
+expect -c "
+spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o "BatchMode=no" -b "/home/paywalletdevops/ach/automate/sftpbatch" "InHouse@securedata.regionstest.com"
+expect -nocase \"*password:\" { send \"Nov151628\r\"; }
+expect eof
+exit
+"
+

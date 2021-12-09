@@ -1,0 +1,6 @@
+lcd /home/paywalletdevops/ach
+cd ACHREPORTING
+get PAYWALLET_FILE_20211208*
+cd ../PAYWALLET
+lcd automate
+put PaywalletLenderCredits211209.txt
