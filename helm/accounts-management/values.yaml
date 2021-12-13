@@ -21,18 +21,3 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-  LYONS_API_BASEURL: https://demo.lyonsreg.com/webservices/aoa/AOAServiceWCF.svc/
-  LYONS_API_COMPANYID: 2785
-  LYONS_API_USERNAME: inhousecapitaldemo
-  LYONS_API_PASSWORD: zpCW7Vm7
-  LYONS_API_RETURNDETAILS: 0
-  FINARECT_API_BASEURL: https://fineract/fineract-provider/api/v1/
-  FINARECT_API_USERNAME: mifos
-  FINARECT_API_PASSWORD: password
-  FINARECT_API_LOCALE: en
-  FINARECT_API_DATEFORMAT: dd MMMM yyyy
-  APPLICATION_NAME: accounts-management
-  EUREKA_SERVICEURL_DEFALTZONE: http://eureka-server:8761/eureka
-
