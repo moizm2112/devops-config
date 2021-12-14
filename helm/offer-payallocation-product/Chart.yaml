@@ -1,0 +1,5 @@
+apiVersion: v2
+name: offer-payallocation-product
+version: 1.0
+description: offer-payallocation-product
+
