@@ -1,0 +1,5 @@
+apiVersion: v2
+name: employer-search-product
+version: 1.0
+description: employer-search-product-service
+

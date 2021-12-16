@@ -149,6 +149,7 @@ auth:
   usernames: [admin,paywallet]
   passwords: [kpP6Zi9eFmJKu,ImRsvC73JovV]
   databases: [luthersales,paywallet_db]
+
   ## @param auth.username DEPRECATED: use `auth.usernames` instead
   ## @param auth.password DEPRECATED: use `auth.passwords` instead
   ## @param auth.database DEPRECATED: use `auth.databases` instead

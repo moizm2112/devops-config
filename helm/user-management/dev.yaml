@@ -30,4 +30,3 @@ livenessProbe:
     LYONS_RETURN_DETAILS: 0
     CUST_VALIDATION_MAX_ALLOWED_UPDATE: 3
     APPLICATION_NAME: user-management
-    DEFAULT_ZONE: http://eureka-server:8761/eureka

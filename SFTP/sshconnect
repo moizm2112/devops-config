@@ -1,0 +1,2 @@
+export ASK_PASS=/home/paywalletdevops/ach/automate/sshpass
+setsid sftp "-i /home/paywalletdevops/ach/automate/new-pair InHouse@securedata.regionstest.com"

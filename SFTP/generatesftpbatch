@@ -1,0 +1,9 @@
+. /etc/profile
+echo "lcd /home/paywalletdevops/ach"
+echo "cd ACHREPORTING"
+echo "get PAYWALLET_FILE_"`date  --date="yesterday" +"%Y%m%d"`"*"
+echo "cd ../PAYWALLET"
+echo "lcd automate"
+echo "put $1"
+
+

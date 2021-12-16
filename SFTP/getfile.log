@@ -1,0 +1,36 @@
+spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:
+sftp> lcd /home/paywalletdevops/ach
+sftp> cd ACHREPORTING
+sftp> get PAYWALLET_FILE_20211208*
+spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:
+Thu Dec  9 07:52:01 UTC 2021
+spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:
+sftp> lcd /home/paywalletdevops/ach
+sftp> cd ACHREPORTING
+sftp> get PAYWALLET_FILE_20211208*
+Thu Dec  9 10:26:01 UTC 2021
+spawn sftp -i /home/paywalletdevops/ach/automate/new-pair -o BatchMode=no -b /home/paywalletdevops/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:
+sftp> lcd /home/paywalletdevops/ach
+sftp> cd ACHREPORTING
+sftp> get PAYWALLET_FILE_20211208*
+sftp> cd ../PAYWALLET
+sftp> lcd automate
+sftp> put PaywalletLenderCredits211209.txt

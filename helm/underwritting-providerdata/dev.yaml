@@ -1,9 +1,9 @@
 service:
   port: 80
   targetPort: 8080
-  
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/accounts-management-service"
-imageTag: "86a9aa6"
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/underwritting-providerdata-service"
+imageTag: "1.1"
 imagepullPolicy: Always
 resources:
   limits:
@@ -21,3 +21,4 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: dev
+  SERVER_PORT: "8080"

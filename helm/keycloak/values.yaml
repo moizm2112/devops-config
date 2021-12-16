@@ -43,9 +43,15 @@ configMap:
   DB_PORT: "5432"
   DB_DATABASE: "keycloak"
   DB_USER: "keycloak"
+<<<<<<< HEAD
   DB_PASSWORD: "payukeycloak"
   KEYCLOAK_USER: "admin"
   KEYCLOAK_PASSWORD: "paywallet@321"
+=======
+  DB_PASSWORD: "keycloak"
+  KEYCLOAK_USER: "admin"
+  KEYCLOAK_PASSWORD: "admin"
+>>>>>>> 5bb8fbc792195213b768c8894b78e0e6a4b5b789
   PROXY_ADDRESS_FORWARDING: "true"
   KEYCLOAK_FRONTEND_URL: "https://sandbox2-dev.paywalletllc.com/keycloak-sen/auth/"
   KEYCLOAK_ADMIN_URL: "https://sandbox2-dev.paywalletllc.com/keycloak-sen/auth/realms/master/admin/"
