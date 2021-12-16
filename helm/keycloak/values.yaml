@@ -11,7 +11,7 @@ resources: {}
 # readinessProbe for Kong pods
 readinessProbe:
   httpGet:
-    path: "/auth/realms/master"
+    path: /auth/realms/master
     port: status
     scheme: HTTP
   initialDelaySeconds: 300
@@ -23,7 +23,7 @@ readinessProbe:
 # livenessProbe for Kong pods
 livenessProbe:
   httpGet:
-    path: "/auth/"
+    path: /auth/
     port: status
     scheme: HTTP
   initialDelaySeconds: 300
@@ -34,14 +34,19 @@ livenessProbe:
 
 terminationGracePeriodSeconds: 30
 
-secert:
+secret:
   keycloak: payukeycloak
 
 configMap:
   DB_VENDOR: "POSTGRES"
-  DB_ADDR: "dev-kong.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com"
+  DB_ADDR: "dev-kong-konga.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com"
   DB_PORT: "5432"
   DB_DATABASE: "keycloak"
   DB_USER: "keycloak"
+  DB_PASSWORD: "payukeycloak"
   KEYCLOAK_USER: "admin"
-  KEYCLOAK_PASSWORD: "admin"
+  KEYCLOAK_PASSWORD: "paywallet@321"
+  PROXY_ADDRESS_FORWARDING: "true"
+  KEYCLOAK_FRONTEND_URL: "https://sandbox2-dev.paywalletllc.com/keycloak-sen/auth/"
+  KEYCLOAK_ADMIN_URL: "https://sandbox2-dev.paywalletllc.com/keycloak-sen/auth/realms/master/admin/"
+

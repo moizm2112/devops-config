@@ -86,14 +86,15 @@ env:
   admin_gui_error_log: /dev/stderr
   portal_api_error_log: /dev/stderr
   prefix: /kong_prefix/
+  plugins: bundled,oidc
 
 # This section can be used to configure some extra labels that will be added to each Kubernetes object generated.
 extraLabels: {}
 
 # Specify Kong's Docker image and repository details here
 image:
-  repository: kong
-  tag: "2.6"
+  repository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/kong-oidc"
+  tag: "1.6"
   # Kong Enterprise
   # repository: kong/kong-gateway
   # tag: "2.6.0.0-alpine"
@@ -207,7 +208,7 @@ cluster:
 # Specify Kong proxy service configuration
 proxy:
   # Enable creating a Kubernetes service for the proxy
-  enabled: false
+  enabled: true
   type: LoadBalancer
   # To specify annotations or labels for the proxy service, add them to the respective
   # "annotations" or "labels" dictionaries below.

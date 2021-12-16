@@ -146,8 +146,8 @@ auth:
   ## @param auth.passwords List of passwords for the custom users set at `auth.usernames`
   ## @param auth.databases List of custom databases to be created during the initialization
   ##
-  usernames: [admin,user]
-  passwords: [password@123,password@123]
+  usernames: [admin,paywallet]
+  passwords: [kpP6Zi9eFmJKu,ImRsvC73JovV]
   databases: [luthersales,paywallet_db]
   ## @param auth.username DEPRECATED: use `auth.usernames` instead
   ## @param auth.password DEPRECATED: use `auth.passwords` instead
@@ -330,7 +330,7 @@ labels: {}
 ## @param replicaCount Number of MongoDB&reg; nodes (only when `architecture=replicaset`)
 ## Ignored when mongodb.architecture=standalone
 ##
-replicaCount: 2
+replicaCount: 3
 ## @param strategyType StrategyType for MongoDB&reg; statefulset
 ## It can be set to RollingUpdate or Recreate by default.
 ##

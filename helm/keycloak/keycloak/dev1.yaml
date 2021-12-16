@@ -113,12 +113,6 @@ extraEnv: |
     value: admin
   - name: KEYCLOAK_PASSWORD
     value: paywallet@321
-  - name: PROXY_ADDRESS_FORWARDING
-    value: "true"
-  - name: KEYCLOAK_FRONTEND_URL
-    value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/"
-  - name: KEYCLOAK_ADMIN_URL
-    value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/realms/master/admin/*"
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL

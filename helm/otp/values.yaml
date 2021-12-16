@@ -27,7 +27,6 @@ configMap:
   NOTIFICATION_EUREKA_URL: http://NOTIFICATION-SERVICE
   NOTIFICATION_SMS_URL: /api/v1/notifications/sms
   NOTIFICATION_EMAIL_SERVICE: /api/v1/notifications/email
-  NOTIFICATION_SMS_TEMPLATE: LutherSales:  Otp is the single use security code you requested. This will expire in ${otp.expiryTimeInMins} minutes. Do not share it- We will never contact you to ask for it
   KEY_CLOAK: luther-sales
   KEY_CLOAK_AUTH_SERVER_URL: https://sandbox1-dev.paywalletllc.com/auth/realms/
   KEY_CLOAK_CLIENTID: kong}

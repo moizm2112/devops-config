@@ -21,16 +21,24 @@ spec:
         backend:
           serviceName: eureka-server
           servicePort: 8761
-      - path: /notification-service(/|$)(.*)
+      - path: /(|$)(.*)
         backend:
-          serviceName: notification-service
+          serviceName: kong-kong-proxy
           servicePort: 80
       - path: /konga(/|$)(.*)
         backend:
           serviceName: konga
           servicePort: 80
-      - path: /auth(/|$)(.*)
+      - path: /keycloak(/|$)(.*)
         backend:
-          serviceName: keycloak1-http
+          serviceName: keycloak2-http
           servicePort: 80
-                    
+      - path: /fineract(/|$)(.*)
+        backend:
+          serviceName: fineract
+          servicePort: 80
+      - path: /fineract-provider(/|$)(.*)
+        backend:
+          serviceName: fineract
+          servicePort: 80
+
