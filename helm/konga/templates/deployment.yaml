@@ -41,16 +41,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ template "serviceId.name" . }}
-          env:      
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "serviceId.name" . }}
-                  key: konga-password 
-          readinessProbe:
-{{ toYaml .Values.readinessProbe | indent 12 }}
-          livenessProbe:
-{{ toYaml .Values.livenessProbe | indent 12 }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}    
