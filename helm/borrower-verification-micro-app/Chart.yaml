@@ -1,0 +1,5 @@
+apiVersion: v2
+name: borrower-verification-micro-app
+version: 1.0
+description: borrower-verification-micro-app
+
