@@ -118,7 +118,7 @@ extraEnv: |
   - name: KEYCLOAK_FRONTEND_URL
     value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/"
   - name: KEYCLOAK_ADMIN_URL
-    value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/realms/master/admin/*"
+    value: "https://sandbox2-dev.paywalletllc.com/auth/realms/master/admin/*"
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL

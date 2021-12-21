@@ -96,7 +96,29 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv: ""
+extraEnv: |
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: dev-kong-konga.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
+  - name: DB_PORT
+    value: "5432"
+  - name: DB_DATABASE
+    value: keycloak
+  - name: DB_USER
+    value: keycloak
+  - name: DB_PASSWORD
+    value: payukeycloak
+  - name: KEYCLOAK_USER
+    value: admin
+  - name: KEYCLOAK_PASSWORD
+    value: Paywalletuat@123
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: KEYCLOAK_FRONTEND_URL
+    value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/"
+  - name: KEYCLOAK_ADMIN_URL
+    value: "https://sandbox2-dev.paywalletllc.com/auth/realms/master/admin/*"
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL
@@ -219,7 +241,11 @@ statefulsetAnnotations: {}
 statefulsetLabels: {}
 
 # Configuration for secrets that should be created
-secrets: {}
+secrets:
+  db:
+    stringData:
+      DB_USER: 'keycloak'
+      DB_PASSWORD: 'payukeycloak'
   # mysecret:
   #   type: {}
   #   annotations: {}
@@ -234,7 +260,7 @@ service:
   labels: {}
   # key: value
   # The Service type
-  type: ClusterIP
+  type: NodePort
   # Optional IP for the load balancer. Used for services of type LoadBalancer only
   loadBalancerIP: ""
   # The http Service port
@@ -298,16 +324,22 @@ ingress:
   # ingress for console only (/auth/admin)
   console:
     # If `true`, an Ingress is created for console path only
-    enabled: false
+    enabled: true
     # The name of Ingress Class associated with the console ingress only
-    ingressClassName: ""
+    ingressClassName: "payudev"
     # Ingress annotations for console ingress only
     # Useful to set nginx.ingress.kubernetes.io/whitelist-source-range particularly
-    annotations: {}
+    annotations: 
+      kubernetes.io/ingress.class: nginx
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: instance
+      alb.ingress.kubernetes.io/security-groups: sg-09960e517541935ab    
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
     rules:
       -
         # Ingress host
-        host: '{{ .Release.Name }}.keycloak.example.com'
+        #host: '{{ .Release.Name }}.keycloak.example.com'
+        host: sandbox2-dev.paywalletllc.com
         # Paths for the host
         paths:
           - path: /auth/admin/
@@ -370,11 +402,11 @@ pgchecker:
 
 postgresql:
   # If `true`, the Postgresql dependency is enabled
-  enabled: true
+  enabled: false 
   # PostgreSQL User to create
   postgresqlUsername: keycloak
   # PostgreSQL Password for the new user
-  postgresqlPassword: keycloak
+  postgresqlPassword: payukeycloak
   # PostgreSQL Database to create
   postgresqlDatabase: keycloak
   # PostgreSQL network policy configuration
