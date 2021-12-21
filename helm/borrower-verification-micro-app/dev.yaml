@@ -1,6 +1,6 @@
 service:
-  port: 3000
-  targetPort: 8080
+  port: 80
+  targetPort: 3000
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/borrower-verification-micro-app"
 imageTag: "1.1"
