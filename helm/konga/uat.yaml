@@ -47,5 +47,4 @@ configMap:
    DB_PORT: "5432"
    DB_USER: "kong"
    DB_DATABASE: "kong"
-   DB_PASSWORD: "payukong"
    log_level: "debug"
