@@ -1,0 +1,8 @@
+. /etc/profile
+echo "lcd /home/ubuntu/ach/automate"
+echo "cd PAYWALLET"
+echo "put $1"
+echo "lcd /home/ubuntu/ach/incoming-backup"
+echo "cd ../ACHREPORTING"
+echo "get PAYWALLET_FILE_"`date  --date="yesterday" +"%Y%m%d"`"*"
+echo "lcp /home/ubuntu/ach/incoming-backup/PAYWALLET_FILE_"`date  --date="yesterday" +"%Y%m%d"`"*" /home/ubuntu/ach/incoming"

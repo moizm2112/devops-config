@@ -1,0 +1,11 @@
+OUTGOINGFILE=PaywalletLenderCredits"`date +"%y%m%d"`".txt
+cp /home/ubuntu/ach/automate/outgoing /home/ubuntu/ach/automate/outgoing-backup
+cp /home/ubuntu/ach/automate/outgoing /home/ubuntu/ach/automate/"$OUTGOINGFILE"
+/home/ubuntu/ach/automate/generatesftpbatch "$OUTGOINGFILE" > /home/ubuntu/ach/automate/sftpbatch
+date
+expect -c "
+spawn sftp -i /home/ubuntu/ach/automate/new-pair -o "BatchMode=no" -b "/home/ubuntu/ach/automate/sftpbatch" "InHouse@securedata.regionstest.com"
+expect -nocase \"*password:\" { send \"Nov151628\r\"; }
+expect eof
+exit
+"

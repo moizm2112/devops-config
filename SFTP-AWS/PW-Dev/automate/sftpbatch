@@ -1,0 +1,6 @@
+lcd /home/ubuntu/ach/automate
+cd PAYWALLET
+put PaywalletLenderCredits211224.txt
+lcd /home/ubuntu/ach/incoming-backup
+cd ../ACHREPORTING
+get PAYWALLET_FILE_20211223*

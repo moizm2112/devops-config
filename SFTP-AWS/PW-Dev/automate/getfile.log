@@ -1,0 +1,20 @@
+/bin/sh: 1: /home/ubuntu/ach/automate/periodicGetPutFile: Permission denied
+cp: cannot stat '/home/ubuntu/ach/automate/outgoing': No such file or directory
+cp: cannot stat '/home/ubuntu/ach/automate/outgoing': No such file or directory
+/home/ubuntu/ach/automate/generatesftpbatch: 9: Syntax error: Unterminated quoted string
+Fri Dec 24 12:53:01 UTC 2021
+/home/ubuntu/ach/automate/periodicGetPutFile: 6: expect: not found
+cp: -r not specified; omitting directory '/home/ubuntu/ach/automate/outgoing'
+cp: -r not specified; omitting directory '/home/ubuntu/ach/automate/outgoing'
+/home/ubuntu/ach/automate/generatesftpbatch: 9: Syntax error: Unterminated quoted string
+Fri Dec 24 12:55:01 UTC 2021
+spawn sftp -i /home/ubuntu/ach/automate/new-pair -o BatchMode=no -b /home/ubuntu/ach/automate/sftpbatch InHouse@securedata.regionstest.com
+Password Authentication
+Enter password for InHouse
+Password:
+sftp> lcd /home/ubuntu/ach/automate
+sftp> cd PAYWALLET
+sftp> put PaywalletLenderCredits211224.txt
+sftp> lcd /home/ubuntu/ach/incoming-backup
+sftp> cd ../ACHREPORTING
+sftp> get PAYWALLET_FILE_20211223*

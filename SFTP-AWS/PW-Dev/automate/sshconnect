@@ -1,0 +1,2 @@
+export ASK_PASS=/home/ubuntu/ach/automate/sshpass
+setsid sftp "-i /home/ubuntu/ach/automate/new-pair InHouse@securedata.regionstest.com"
