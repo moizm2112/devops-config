@@ -100,7 +100,7 @@ extraEnv: |
   - name: DB_VENDOR
     value: postgres
   - name: DB_ADDR
-    value: dev-kong-konga.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
+    value: uat-kong-konga-keycloak.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
   - name: DB_PORT
     value: "5432"
   - name: DB_DATABASE
@@ -116,9 +116,9 @@ extraEnv: |
   - name: PROXY_ADDRESS_FORWARDING
     value: "true"
   - name: KEYCLOAK_FRONTEND_URL
-    value: "https://sandbox2-dev.paywalletllc.com/keycloak/auth/"
+    value: https://keycloak-uat.paywalletllc.com/auth/
   - name: KEYCLOAK_ADMIN_URL
-    value: "https://sandbox2-dev.paywalletllc.com/auth/realms/master/admin/*"
+    value: https://keycloak-uat.paywalletllc.com/auth/realms/master/admin/*    
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL

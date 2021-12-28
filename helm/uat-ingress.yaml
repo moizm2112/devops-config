@@ -9,15 +9,42 @@ metadata:
     alb.ingress.kubernetes.io/security-groups: sg-02c6ab9a941b1d2eb
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  tls:
+  - hosts: ["sandbox2-uat.paywalletllc.com", "keycloak-uat.paywalletllc.com", "konga-uat.paywalletllc.com"]
+    secretName: sandbox2-uat
   rules:
-  - host: 
+  - host: sandbox2-uat.paywalletllc.com
     http:
       paths:
-      - path: /eureka(/|$)(.*)
+      - path: /(|$)(.*)
         backend:
           serviceName: eureka-server
           servicePort: 8761
-      - path: /notification-service(/|$)(.*)
+  - host: keycloak-uat.paywalletllc.com
+    http:
+      paths:          
+      - path: /(|$)(.*)
         backend:
-          serviceName: notification-service
+          serviceName: keycloak-http
+          servicePort: 80
+  - host: konga-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: konga
+          servicePort: 80
+  - host: fineract-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /fineract/*
+        backend:
+          serviceName: fineract
+          servicePort: 80
+  - host: services-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: kong-kong-proxy
           servicePort: 80
