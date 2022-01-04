@@ -19,14 +19,5 @@ readinessProbe:
 livenessProbe:
   initialDelaySeconds: 120
 
-  configMap:
-    spring.profiles.active: dev
-    SERVER_PORT: "8080"
-    MONGODB_Host: mongodb://mongo-mongodb-headless:27017/luthersales
-    FINERACT_BASE_URL: http://fineract/fineract-provider/api/v1/
-    INERACT_USER_NAME: mifos
-    FINERACT_PASSWORD: password
-    FINERACT_LOCALE: en
-    FINERACT_DATE_FORMAT: dd MMMM yyyy
-    APPLICATION_NAME: TransactionService
-    DEFAULT_URL: http://eureka-server:8761/eureka
+configMap:
+  spring.profiles.active: dev

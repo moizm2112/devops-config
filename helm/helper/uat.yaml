@@ -20,8 +20,5 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  APPLICATION_NAME: helper
-  EUREKA_SERVICEURL_DEFALTZONE: http://eureka-server:8761/eureka
+  spring.profiles.active: uat
 

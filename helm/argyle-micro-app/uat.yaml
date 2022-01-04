@@ -2,7 +2,7 @@ service:
   port: 80
   targetPort: 8080
   
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/luther-sales-borrower-app"
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/argyle-micro-app"
 imageTag: "afe6de4"
 imagepullPolicy: Always
 resources:
@@ -20,7 +20,3 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  REACT_APP_API_URL: https://k8s-dev-payuwing-73a4a32005-1812154358.us-east-1.elb.amazonaws.com/api/v1/
-  REACT_APP_ARGYLE_PLUGIN_KEY: 114b8dfa-dd26-4ae9-b2e0-cd1c838a2503
-  REACT_APP_ARGYLE_HOST: https://api-sandbox.argyle.io/v1
-  REACT_APP_CLIENT_ID: "Luther Sales"

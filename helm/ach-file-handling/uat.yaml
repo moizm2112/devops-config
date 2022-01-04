@@ -1,9 +1,9 @@
 service:
   port: 80
   targetPort: 8080
-  
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/helper-service"
-imageTag: "1bc56fc"
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/ach-file-handling-service"
+imageTag: "1.0"
 imagepullPolicy: Always
 resources:
   limits:
@@ -20,7 +20,4 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: dev
-  SERVER_PORT: "8080"
-  APPLICATION_NAME: helper
-  EUREKA_SERVICEURL_DEFALTZONE: http://eureka-server:8761/eureka
+  spring.profiles.active: uat

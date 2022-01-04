@@ -2,7 +2,7 @@ service:
   port: 80
   targetPort: 8080
 
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/notification-service"
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/employer-search-product-service"
 imageTag: "1.1"
 imagepullPolicy: Always
 resources:
@@ -20,4 +20,4 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: dev
+  spring.profiles.active: uat
