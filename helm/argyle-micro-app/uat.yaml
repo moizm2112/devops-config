@@ -1,6 +1,6 @@
 service:
   port: 80
-  targetPort: 8080
+  targetPort: 3002
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/argyle-micro-app"
 imageTag: "afe6de4"
