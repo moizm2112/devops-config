@@ -1,0 +1,4 @@
+apiVersion: v2
+name: pay-allocation
+version: 1.0
+description: pay-allocation
