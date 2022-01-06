@@ -1,0 +1,4 @@
+apiVersion: v2
+name: pw-notification
+version: 1.0
+description: pw-notification
