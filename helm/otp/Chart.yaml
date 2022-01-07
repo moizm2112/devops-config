@@ -1,5 +1,4 @@
 apiVersion: v1
-name: otp 
+name: otp
 version: 1.0
 description: otp
-
