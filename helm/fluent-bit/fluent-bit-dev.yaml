@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: fluent-bit
-  namespace: uat
+  namespace: dev
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -31,13 +31,13 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: fluent-bit
-    namespace: uat
+    namespace: dev
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluent-bit-config
-  namespace: uat
+  namespace: dev
   labels:
     k8s-app: fluent-bit
 data:
@@ -91,7 +91,7 @@ data:
         Name                cloudwatch_logs
         Match               application.*
         region              ${AWS_REGION}
-        log_group_name      Application-Logs-UAT
+        log_group_name      Application-Logs-DEV
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insights
@@ -128,7 +128,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: fluent-bit
-  namespace: uat
+  namespace: dev
   labels:
     k8s-app: fluent-bit
     version: v1
