@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   tls:
-  - hosts: ["sandbox2-uat.paywalletllc.com", "keycloak-uat.paywalletllc.com", "konga-uat.paywalletllc.com"]
+  - hosts: ["keycloak-uat.paywalletllc.com", "konga-uat.paywalletllc.com", "fineract-uat.paywalletllc.com", "services-uat.paywalletllc.com", "bvr-uat.paywalletllc.com", "provider1-uat.paywalletllc.com", "provider2-uat.paywalletllc.com", "custactver-uat.paywalletllc.com"]
     secretName: sandbox2-uat
   rules:
-  - host: sandbox2-uat.paywalletllc.com
+  - host: uat-portal.paywalletllc.com
     http:
       paths:
       - path: /(|$)(.*)
         backend:
-          serviceName: eureka-server
-          servicePort: 8761
+          serviceName: paywallet-developer-portal
+          servicePort: 80
   - host: keycloak-uat.paywalletllc.com
     http:
       paths:          
@@ -47,4 +47,32 @@ spec:
       - path: /(|$)(.*)
         backend:
           serviceName: kong-kong-proxy
+          servicePort: 80
+  - host: bvr-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: borrower-verification-micro-app
+          servicePort: 80
+  - host: provider1-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: atomicfi-micro-app
+          servicePort: 80
+  - host: provider2-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: argyle-micro-app
+          servicePort: 80
+  - host: custactver-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: customer-account-verification-micro-app
           servicePort: 80
