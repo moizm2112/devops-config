@@ -1,0 +1,45 @@
+pipeline {
+	agent any
+	environment {
+		BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
+	}
+	parameters {
+		choice(name: 'Service', choices: ['account', 'account-transaction', 'ach-file-handling', 'ach-processing', 'ach-validation', 'borrower', 'employer', 'event-logs', 'helper', 'link', 'mock', 'notification', 'otp', 'pay-allocation', 'provider', 'request', 'underwriting'], description: 'Select the service you want to deploy')
+		string(name: 'environment', defaultValue: 'dev', description: 'Select the environment you want to deploy')
+		string(name: 'Docker_tag', description: 'Enter the Docker image version to deploy')
+	}
+
+	stages {
+	    stage('Setup Dev cluster') {
+			steps { 
+				sh '''
+				    aws eks --region us-east-1 update-kubeconfig --name eks-paywallet
+                '''
+			}
+	    }
+		stage('Cloning our helm chart for the service') {
+			steps { 
+				git credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/devops-config.git'
+			}
+		}
+
+		stage('Deploy the helm chart for the service ') {
+			steps{
+				script {
+					sh "helm upgrade --install ${Service} helm/${Service} -n ${environment} -f helm/${Service}/${environment}.yaml --set imageTag=${Docker_tag}"
+				}
+			}
+		}
+	}
+	post {
+		success {
+			slackSend (color: '#008000', message: "Deployed ${Service}-service in ${environment} environment ${BUILD_TRIGGER_BY} (${env.BUILD_URL})")
+		}
+		failure {
+			slackSend (color: '#FF0000', message: "Deployment failed for ${Service}-service in ${environment} environment ${BUILD_TRIGGER_BY} (${env.BUILD_URL})")
+		}
+		always { 
+			cleanWs()
+		}
+	}
+}
