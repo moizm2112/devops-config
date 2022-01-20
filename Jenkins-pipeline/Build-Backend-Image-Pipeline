@@ -1,0 +1,82 @@
+pipeline {
+	agent any
+	environment {
+		BUILD_TRIGGER_BY = "${currentBuild.getBuildCauses()[0].shortDescription}"
+		AWS_ACCOUNT_ID="669171879954"
+		AWS_DEFAULT_REGION="us-east-1"
+		GIT_COMMIT_REV=''
+		envr=''
+		REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+	}
+	parameters {
+		string(name: 'Branch', defaultValue: 'develop', description: 'Enter the branch to deploy?')
+		choice(name: 'Service', choices: ['ach-file-handling-service', 'ach-processing-service', 'helper-service', 'pw-account-service', 'pw-account-transaction-service', 'pw-ach-processing-service', 'pw-ach-validation-service', 'pw-borrower-service', 'pw-employer-service', 'pw-event-logs-service', 'pw-link-service', 'pw-mock-service', 'pw-notification-service', 'pw-otp-service', 'pw-pay-allocation-service', 'pw-provider-service', 'pw-request-service', 'pw-underwriting-service'], description: 'Select the service you want to deploy')
+		choice(name: 'environment', choices: ['dev', 'uat'], description: 'Select the environment you want to deploy')
+	}
+
+	stages {
+		stage('Logging into AWS ECR') {
+			steps {
+				script {
+					sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+				}
+			}
+		}
+
+		stage('Cloning our Git') {
+			steps { 
+				git branch: '$Branch', credentialsId: 'Github-Key', url: 'https://github.com/Maveric-Digital/${Service}.git'
+				sh'''
+			        sed -i "s/dev/$environment/g" Dockerfile
+		        '''
+			}
+		}
+		
+		stage('Configure') {
+			steps {
+				script {    
+					GIT_COMMIT_REV = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+				}
+			}
+        }
+		
+		stage ('Maven Build') {
+			steps {
+				sh """
+					mvn clean install -DskipTests
+				"""
+			}
+		}
+  
+		// Building Docker images
+		stage('Building image') {
+			steps{
+				script {
+					dockerImage = docker.build "${Service}:${GIT_COMMIT_REV}"
+				}
+			}
+		}
+
+		// Uploading Docker images into AWS ECR
+		stage('Pushing to ECR') {
+			steps{
+				script {
+					sh "docker tag ${Service}:$GIT_COMMIT_REV ${REPOSITORY_URI}/${Service}:$GIT_COMMIT_REV"
+					sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${Service}:$GIT_COMMIT_REV"
+					sh "docker rmi ${Service}:$GIT_COMMIT_REV ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${Service}:$GIT_COMMIT_REV"
+				}
+			}
+		}
+	}
+	post {
+		success {
+			slackSend (color: '#00FF00', message: "Successfully pushed the ${Service} docker image for ${environment} environment, ${BUILD_TRIGGER_BY}. Docker image version for this build is $GIT_COMMIT_REV' (${env.BUILD_URL})")
+		}
+		failure {
+			slackSend (color: '#FF0000', message: "Failed to pushed the ${Service} docker image for ${environment} environment, ${BUILD_TRIGGER_BY}. Docker image version for this build is $GIT_COMMIT_REV' (${env.BUILD_URL})")
+		}
+		always { 
+			cleanWs()
+		}
+	}
+}
