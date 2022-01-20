@@ -1,0 +1,78 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: payuw-prod-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/security-groups: sg-072ba05cc66e7832e
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  tls:
+  - hosts: ["keycloak-uat.paywalletllc.com", "konga-uat.paywalletllc.com", "fineract-uat.paywalletllc.com", "services-uat.paywalletllc.com", "bvr-uat.paywalletllc.com", "provider1-uat.paywalletllc.com", "provider2-uat.paywalletllc.com", "custactver-uat.paywalletllc.com"]
+    secretName: sandbox2-uat
+  rules:
+  - host: uat-portal.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: paywallet-developer-portal
+          servicePort: 80
+  - host: keycloak-uat.paywalletllc.com
+    http:
+      paths:          
+      - path: /(|$)(.*)
+        backend:
+          serviceName: keycloak-http
+          servicePort: 80
+  - host: konga-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: konga
+          servicePort: 80
+  - host: fineract-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /fineract/*
+        backend:
+          serviceName: fineract
+          servicePort: 80
+  - host: services-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: kong-kong-proxy
+          servicePort: 80
+  - host: bvr-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: borrower-verification-micro-app
+          servicePort: 80
+  - host: provider1-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: atomicfi-micro-app
+          servicePort: 80
+  - host: provider2-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: argyle-micro-app
+          servicePort: 80
+  - host: custactver-uat.paywalletllc.com
+    http:
+      paths:
+      - path: /(|$)(.*)
+        backend:
+          serviceName: customer-account-verification-micro-app
+          servicePort: 80
