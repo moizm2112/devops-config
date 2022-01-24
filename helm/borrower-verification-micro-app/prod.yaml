@@ -1,9 +1,9 @@
 service:
   port: 80
-  targetPort: 8080
+  targetPort: 3000
   
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-account-service"
-imageTag: "1.0"
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/borrower-verification-micro-app"
+imageTag: "1.1"
 imagepullPolicy: Always
 resources:
   limits:
@@ -20,4 +20,3 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: uat

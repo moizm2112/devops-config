@@ -20,4 +20,4 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: uat
+  spring.profiles.active: prod

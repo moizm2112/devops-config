@@ -1,8 +1,8 @@
 service:
   port: 80
-  targetPort: 8080
+  targetPort: 3003
   
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-account-service"
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/customer-account-verification-micro-app"
 imageTag: "1.0"
 imagepullPolicy: Always
 resources:
@@ -20,4 +20,3 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: uat
