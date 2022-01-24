@@ -33,6 +33,6 @@ configMap:
   SUB_PROTOCOL: mysql:thin
   node_id: "1"
   fineract_tenants_driver: org.drizzle.jdbc.DrizzleDriver
-  fineract_tenants_url: jdbc:mysql:thin://dev-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com:3306/fineract_tenants
-  FINERACT_DEFAULT_TENANTDB_HOSTNAME: dev-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
+  fineract_tenants_url: jdbc:mysql:thin://prod-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com:3306/fineract_tenants
+  FINERACT_DEFAULT_TENANTDB_HOSTNAME: prod-fineract.cluster-ckluizvytk2n.us-east-1.rds.amazonaws.com
   FINERACT_DEFAULT_TENANTDB_PORT: "3306"
