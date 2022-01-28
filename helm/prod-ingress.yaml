@@ -10,7 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   tls:
-  - hosts: ["idp.paywalletllc.com", "gateway.paywalletllc.com"]
+  - hosts: ["idp.paywalletllc.com", "gateway.paywalletllc.com", "services.paywalletllc.com", "va.paywalletllc.com", "payments.paywalletllc.com"]
     secretName: prod-tls-secret
   rules:
   - host: idp.paywalletllc.com
@@ -33,13 +33,6 @@ spec:
       - path: /(|$)(.*)
         backend:
           serviceName: kong-kong-proxy
-          servicePort: 80		  
-  - host: prod-portal.paywalletllc.com
-    http:
-      paths:
-      - path: /(|$)(.*)
-        backend:
-          serviceName: paywallet-developer-portal
           servicePort: 80
   - host: va.paywalletllc.com
     http:
@@ -48,31 +41,31 @@ spec:
         backend:
           serviceName: fineract
           servicePort: 80
-  - host: payments.payalletllc.com
+  - host: payments.paywalletllc.com
     http:
       paths:
       - path: /borrower(|$)(.*)
         backend:
           serviceName: borrower-verification-micro-app
           servicePort: 80
-  - host: payments.payalletllc.com
+  - host: payments.paywalletllc.com
     http:
       paths:
       - path: /provider1(|$)(.*)
         backend:
           serviceName: atomicfi-micro-app
           servicePort: 80
-  - host: payments.payalletllc.com
+  - host: payments.paywalletllc.com
     http:
       paths:
       - path: /provider2(|$)(.*)
         backend:
           serviceName: argyle-micro-app
           servicePort: 80
-  - host: payments.payalletllc.com
+  - host: payments.paywalletllc.com
     http:
       paths:
       - path: /allocation(|$)(.*)
         backend:
           serviceName: customer-account-verification-micro-app
-          servicePort: 80          
+          servicePort: 80
