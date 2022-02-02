@@ -37,7 +37,7 @@ spec:
   - host: va.paywalletllc.com
     http:
       paths:
-      - path: /*
+      - path: /fineract/*
         backend:
           serviceName: fineract
           servicePort: 80
