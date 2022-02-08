@@ -91,7 +91,7 @@ data:
         Name                cloudwatch_logs
         Match               application.*
         region              ${AWS_REGION}
-        log_group_name      Application-Logs-UAT
+        log_group_name      Application-Logs-Prod
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insights
