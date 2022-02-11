@@ -1,0 +1,6 @@
+lcd /home/ubuntu/sftp_scripts/test/outgoing
+cd PAYWALLET
+put PaywalletLenderCredits220211.txt
+lcd /home/ubuntu/sftp_scripts/test/incoming
+cd ../ACHREPORTING
+get PAYWALLET_FILE_20220210*
