@@ -1,0 +1,18 @@
+PUT_FILE=PaywalletLenderCredits"`date +"%y%m%d"`".txt
+GET_FILE=PAYWALLET_FILE_"`date  --date="yesterday" +"%Y%m%d"`"
+sed -i 's/PaywalletLenderCredits.*/'"$PUT_FILE"'/g' /home/ubuntu/sftp_scripts/prod/inputfile
+sed -i 's/PAYWALLET_FILE_.*/'"$GET_FILE"'*/g' /home/ubuntu/sftp_scripts/prod/inputfile
+
+aws s3 cp s3://pw-sftp-product/outgoing/ /home/ubuntu/sftp_scripts/prod/outgoing/ --recursive
+aws s3 mv s3://pw-sftp-product/outgoing/ s3://pw-sftp-product/outgoing-backup/ --recursive
+
+expect -c "
+spawn sftp -i /home/ubuntu/sftp_scripts/prod/prod_key -o "BatchMode=no" -b "/home/ubuntu/sftp_scripts/prod/inputfile" "InHouse@securedata.regions.com"
+expect -nocase \"*password:\" { send \"Nov151628\r\"; }
+expect eof
+exit
+"
+
+aws s3 mv s3://pw-sftp-product/incoming/ s3://pw-sftp-product/incoming-backup/ --recursive
+aws s3 cp /home/ubuntu/sftp_scripts/prod/incoming/$GET_FILE*.txt s3://pw-sftp-product/incoming/
+rm -f /home/ubuntu/sftp_scripts/prod/incoming/*.txt /home/ubuntu/sftp_scripts/prod/outgoing/*.txt
