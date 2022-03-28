@@ -13,7 +13,7 @@ spec:
   - hosts: ["keycloak-sandbox.paywalletllc.com", "konga-sandbox.paywalletllc.com", "fineract-sandbox.paywalletllc.com", "services-sandbox.paywalletllc.com", "bvr-sandbox.paywalletllc.com", "provider1-sandbox.paywalletllc.com", "provider2-sandbox.paywalletllc.com", "custactver-sandbox.paywalletllc.com"]
     secretName: sandbox2-sandbox
   rules:
-  - host: sandbox-portal.paywalletllc.com
+  - host: portal.paywalletllc.com
     http:
       paths:
       - path: /(|$)(.*)
