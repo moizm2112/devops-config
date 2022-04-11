@@ -1,5 +1,5 @@
 container:
-  arg: ["--spring.profiles.active=dev"]
+  arg: ["-Dspring.profiles.active=dev"]
   env:
     JAVA_OPTIONS: ""
 
