@@ -1,3 +1,6 @@
+container:
+  arg: ["--spring.profiles.active=uat"]
+
 service:
   port: 80
   targetPort: 8080
