@@ -1,5 +1,7 @@
 container:
   arg: ["--spring.profiles.active=prod"]
+  env:
+    JAVA_OPTIONS: ""
 
 service:
   port: 80

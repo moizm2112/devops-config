@@ -1,5 +1,7 @@
 container:
   arg: ["--spring.profiles.active=sandbox"]
+  env:
+    JAVA_OPTIONS: ""
 
 service:
   port: 80
