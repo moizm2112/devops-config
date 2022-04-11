@@ -1,3 +1,6 @@
+container:
+  arg: ["--spring.profiles.active=prod"]
+
 service:
   port: 80
   targetPort: 8080
