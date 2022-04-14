@@ -42,7 +42,7 @@ spec:
            - name: JAVA_OPTIONS
               value: {{ .Values.container.env.JAVA_OPTIONS }}
           args:
-            {{- range .Values.container.arg}}
+            {{- range .Values.container.arg }}
             - {{ . }}
             {{- end}}
           # livenessProbe:
