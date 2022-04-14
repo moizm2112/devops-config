@@ -45,7 +45,6 @@ spec:
             {{- range .Values.container.arg}}
             - {{ . }}
             {{- end}}
-
           # livenessProbe:
           #   httpGet:
           #     path: /{{ template "serviceId.name" . }}/health
