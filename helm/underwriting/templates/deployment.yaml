@@ -40,7 +40,7 @@ spec:
                 name: {{ template "serviceId.name" . }}
           env:
            - name: JAVA_OPTIONS
-              value: {{ .Values.container.env.JAVA_OPTIONS }}
+             value: {{ .Values.container.env.JAVA_OPTIONS }}
           args:
             {{- range .Values.container.arg }}
             - {{ . }}
