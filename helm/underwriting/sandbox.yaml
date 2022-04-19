@@ -1,5 +1,5 @@
 container:
-  arg: ["--Dspring.profiles.active=sandbox"]
+  arg: ["-Dspring.profiles.active=sandbox"]
   env:
     JAVA_OPTIONS: ""
 

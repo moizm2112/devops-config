@@ -1,5 +1,5 @@
 container:
-  arg: ["--Dspring.profiles.active=uat"]
+  arg: ["-Dspring.profiles.active=uat"]
   env:
     JAVA_OPTIONS: ""
 
