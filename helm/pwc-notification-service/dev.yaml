@@ -1,8 +1,13 @@
+container:
+  arg: ["-Dspring.profiles.active=dev"]
+  env:
+    JAVA_OPTIONS: ""
+
 service:
   port: 80
-  targetPort: 9200
-  
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pwc-auth-service"
+  targetPort: 8080
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pwc-notification-service"
 imageTag: "1.0"
 imagepullPolicy: Always
 resources:
