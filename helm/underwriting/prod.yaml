@@ -26,14 +26,3 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: prod
-
-secret:
-  enabled: false
-  
-secretName: underwriting
-
-secrets:
-  - key: /underwriting-test-value1
-    name: test_value1
-  - key: /underwriting-test-value2
-    name: test_value2
