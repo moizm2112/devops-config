@@ -26,3 +26,4 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: dev
+

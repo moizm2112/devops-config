@@ -38,6 +38,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ template "serviceId.name" . }}
+            - secretRef:
+                name: {{ .Values.secretName }}
           env:
            - name: JAVA_OPTIONS
              value: {{ .Values.container.env.JAVA_OPTIONS }}
