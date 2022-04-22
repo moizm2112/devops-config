@@ -26,3 +26,6 @@ livenessProbe:
 
 configMap:
   spring.profiles.active: prod
+
+secret:
+  enabled: false
