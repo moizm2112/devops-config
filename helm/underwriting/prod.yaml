@@ -28,7 +28,7 @@ configMap:
   spring.profiles.active: prod
 
 secret:
-  enabled: true
+  enabled: false
   
 secretName: underwriting
 
