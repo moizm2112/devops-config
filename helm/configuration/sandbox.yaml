@@ -1,8 +1,13 @@
+container:
+  arg: ["-Dspring.profiles.active=sandbox"]
+  env:
+    JAVA_OPTIONS: ""
+
 service:
   port: 80
   targetPort: 8080
 
-imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-underwriting-service"
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-configuration-service"
 imageTag: "1.0"
 imagepullPolicy: Always
 resources:
