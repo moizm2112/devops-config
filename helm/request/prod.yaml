@@ -1,3 +1,8 @@
+container:
+  arg: ["-Dspring.profiles.active=sandbox"]
+  env:
+    JAVA_OPTIONS: ""
+    
 service:
   port: 80
   targetPort: 8080
@@ -20,4 +25,4 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: prod
+  spring.profiles.active: sandbox
