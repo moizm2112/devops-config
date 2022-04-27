@@ -37,7 +37,16 @@ spec:
               mountPath: /config/
           envFrom:
             - configMapRef:
-                name: {{ template "serviceId.name" . }} 
+                name: {{ template "serviceId.name" . }}
+#            - secretRef:
+#                name: {{ .Values.secretName }}
+          env:
+           - name: JAVA_OPTIONS
+             value: {{ .Values.container.env.JAVA_OPTIONS }}
+          args:
+            {{- range .Values.container.arg }}
+            - {{ . }}
+            {{- end}}
           # livenessProbe:
           #   httpGet:
           #     path: /{{ template "serviceId.name" . }}/health
@@ -58,6 +67,3 @@ spec:
         - name: {{ template "serviceId.name" . }}-configmap
           configMap:
             name: {{ template "serviceId.name" . }}
-
-
-
