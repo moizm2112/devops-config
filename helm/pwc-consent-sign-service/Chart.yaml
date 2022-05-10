@@ -1,0 +1,4 @@
+apiVersion: v2
+name: pwc-consent-sign-service
+version: 1.0
+description: pwc-consent-sign-service
