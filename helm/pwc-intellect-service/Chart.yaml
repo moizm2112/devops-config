@@ -1,0 +1,4 @@
+apiVersion: v2
+name: pwc-intellect-service
+version: 1.0
+description: pwc-intellect-service
