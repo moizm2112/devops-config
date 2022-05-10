@@ -5,7 +5,7 @@ container:
 
 service:
   port: 80
-  targetPort: 9200
+  targetPort: 8080
 
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-employer-service"
 imageTag: "1.0"
