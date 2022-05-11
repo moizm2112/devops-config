@@ -1,0 +1,23 @@
+service:
+  port: 80
+  targetPort: 8080
+
+imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-dashboard-service"
+imageTag: "1.0"
+imagepullPolicy: Always
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 500M
+
+readinessProbe:
+  initialDelaySeconds: 120
+
+livenessProbe:
+  initialDelaySeconds: 120
+
+configMap:
+  spring.profiles.active: demo
