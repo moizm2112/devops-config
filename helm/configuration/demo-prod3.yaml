@@ -1,5 +1,5 @@
 container:
-  arg: ["-Dspring.profiles.active=demo-prod3"]
+  arg: ["-Dspring.profiles.active=demo"]
   env:
     JAVA_OPTIONS: ""
 service:
@@ -24,4 +24,4 @@ livenessProbe:
   initialDelaySeconds: 120
 
 configMap:
-  spring.profiles.active: demo-prod3
+  spring.profiles.active: demo
