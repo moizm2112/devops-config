@@ -1,6 +1,6 @@
 service:
   port: 80
-  targetPort: 3001
+  targetPort: 3007
   
 imageRepository: "669171879954.dkr.ecr.us-east-1.amazonaws.com/pw-client-app"
 imageTag: "afe6de4"
