@@ -2,8 +2,8 @@ service:
   port: 80
   targetPort: 3001
   
-imageRepository: "public.ecr.aws/q1s6f7t8/atomicfi-micro-app:atomicfi-micro-app-779f5a3"
-imageTag: "1.0"
+imageRepository: "public.ecr.aws/q1s6f7t8/atomicfi-micro-app"
+imageTag: "atomicfi-micro-app-779f5a3"
 imagepullPolicy: Always
 resources:
   limits:
